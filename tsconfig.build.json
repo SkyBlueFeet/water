@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "noEmitOnError": true,
+    "declaration": false,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "resolveJsonModule": true,
+    "downlevelIteration": true,
+    "esModuleInterop": true,
+    "module": "CommonJS",
+    "target": "es5",
+    "alwaysStrict": true,
+    "importHelpers": true,
+    "incremental": true,
+    "sourceMap": false,
+    "outDir": "./server/dist",
+    "baseUrl": "./",
+    "noEmit": false,
+    "lib": ["ES2015", "DOM", "ES2016", "ES2017"],
+    "types": ["node", "webpack"]
+  },
+  "include": ["server"]
+}
