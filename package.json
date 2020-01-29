@@ -1,7 +1,7 @@
 {
   "name": "ts-webpack4-template",
   "version": "3.0.0",
-  "description": "基于Vue-cli@2 脚手架升级改造的全typescript实现",
+  "description": "skyui构建、开发、项目文档",
   "author": "SkyBlue <yakun1593@163.com>",
   "private": true,
   "scripts": {
