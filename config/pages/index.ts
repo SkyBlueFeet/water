@@ -5,21 +5,21 @@ import { resolve } from "../utils";
 import { env } from "../assembly";
 
 export interface PreOption {
-  rel: "preload";
-  include: "asyncChunks";
-  excludeHtmlNames: [];
+    rel: "preload";
+    include: "asyncChunks";
+    excludeHtmlNames: [];
 }
 
 export interface MixingPagesOption {
-  entries: Entry;
-  htmlOptions: HtmlOption[];
-  preOptions?: PreOption[];
+    entries: Entry;
+    htmlOptions: HtmlOption[];
+    preOptions?: PreOption[];
 }
 
 export interface MixingPages {
-  entries: MixingPagesOption["entries"];
-  html: Configuration["plugins"];
-  pre?: Configuration["plugins"];
+    entries: MixingPagesOption["entries"];
+    html: Configuration["plugins"];
+    pre?: Configuration["plugins"];
 }
 
 /**
@@ -30,35 +30,35 @@ export interface MixingPages {
  * @returns { Plugin }
  */
 function CreatePage(Option: HtmlOption, env: env): Plugin {
-  Option = {
-    filename: "index.html",
-    inject: true,
-    minify: {
-      removeComments: env === "production",
-      collapseWhitespace: env === "production",
-      removeAttributeQuotes: env === "production"
-      // more options:
-      // https://github.com/kangax/html-minifier#options-quick-reference
-    },
-    // necessary to consistently work with multiple chunks via CommonsChunkPlugin
-    chunksSortMode: "dependency",
-    favicon: resolve("logo.png"),
-    cache: true,
-    ...Option
-  };
-  return new HtmlWebpackPlugin({
-    ...Option
-  });
+    Option = {
+        filename: "index.html",
+        inject: true,
+        minify: {
+            removeComments: env === "production",
+            collapseWhitespace: env === "production",
+            removeAttributeQuotes: env === "production"
+            // more options:
+            // https://github.com/kangax/html-minifier#options-quick-reference
+        },
+        // necessary to consistently work with multiple chunks via CommonsChunkPlugin
+        chunksSortMode: "dependency",
+        favicon: resolve("logo.png"),
+        cache: true,
+        ...Option
+    };
+    return new HtmlWebpackPlugin({
+        ...Option
+    });
 }
 
 export default function(env: env): MixingPages {
-  const entries = {
-    ...vue(env).entries
-  };
-  const options = [...vue(env).htmlOptions];
-  const html = options.map(item => CreatePage(item, env));
-  return {
-    entries,
-    html
-  };
+    const entries = {
+        ...vue(env).entries
+    };
+    const options = [...vue(env).htmlOptions];
+    const html = options.map(item => CreatePage(item, env));
+    return {
+        entries,
+        html
+    };
 }

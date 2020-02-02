@@ -1,28 +1,21 @@
 {
-  "compilerOptions": {
-    "moduleResolution": "node",
-    "noEmitOnError": true,
-    "declaration": false,
-    "jsx": "preserve",
-    "jsxFactory": "h",
-    "removeComments": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "resolveJsonModule": true,
-    "downlevelIteration": true,
-    "esModuleInterop": true,
-    "module": "ESNext",
-    "target": "es5",
-    "alwaysStrict": true,
-    "importHelpers": true,
-    "incremental": true,
-    "sourceMap": false,
-    "outDir": "./dist/@types",
-    "baseUrl": "./",
-    "paths": {},
-    "noEmit": false,
-    "lib": ["ES2015", "DOM", "ES2016", "ES2017"],
-    "types": ["node", "webpack", "webpack-env", "vue"]
-  },
-  "exclude": ["node_modules", "dist"]
+    "compilerOptions": {
+        "moduleResolution": "node",
+        "noEmitOnError": true,
+        "removeComments": false,
+        "resolveJsonModule": true,
+        "experimentalDecorators": true,
+        "downlevelIteration": true,
+        "esModuleInterop": true,
+        "module": "ESNext",
+        "target": "ES5",
+        "importHelpers": true,
+        "jsx": "preserve",
+        "jsxFactory": "h",
+        "baseUrl": "./",
+        "noEmit": false,
+        "lib": ["ES2015", "ES2016", "ES2017", "DOM"],
+        "types": ["node", "lodash"]
+    },
+    "exclude": ["node_modules", "dist", "types"]
 }

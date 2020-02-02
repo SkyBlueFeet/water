@@ -2,7 +2,7 @@
 
 ## Description
 
-Skyui 文档，基于 VuePress 技术文档构建方案
+skyui 构建、开发、项目文档
 
 ## 技术栈
 
