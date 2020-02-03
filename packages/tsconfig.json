@@ -9,7 +9,6 @@
         "esModuleInterop": true,
         "module": "ESNext",
         "target": "ES5",
-        "importHelpers": true,
         "jsx": "preserve",
         "jsxFactory": "h",
         "baseUrl": "./",

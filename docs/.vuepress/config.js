@@ -18,7 +18,7 @@ module.exports = {
             { text: "Guide", link: "/guide/" },
             { text: "External", link: "https://google.com" }
         ],
-        sidebar: ["/", "/start"],
+        sidebar: ["/", "/start", "/list-item"],
         lastUpdated: "上次更新时间",
         smoothScroll: true
     },

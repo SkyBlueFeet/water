@@ -4,8 +4,7 @@ import { VueConstructor } from "vue/types/umd";
 
 const components = [VList, VListItem];
 
-const install: any = function(Vue: VueConstructor<Vue>) {
-    if (install.installed) return;
+const install = function(Vue: VueConstructor<Vue>): void {
     components.map(component => Vue.component(component.name, component));
 };
 

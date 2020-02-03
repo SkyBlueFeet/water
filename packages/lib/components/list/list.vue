@@ -1,9 +1,10 @@
+<script lang="tsx">
 import { formatDate } from "../../utils/util";
 import { VNode, CreateElement } from "vue/types/umd";
 import { Vue, Component } from "vue-property-decorator";
 
 @Component({})
-export default class VList extends Vue {
+export default class List extends Vue {
     name = "v-list";
     date = formatDate(new Date());
     render(h: CreateElement): VNode {
@@ -18,3 +19,9 @@ export default class VList extends Vue {
         );
     }
 }
+</script>
+<style lang="scss">
+.v-list {
+    color: aquamarine;
+}
+</style>

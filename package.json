@@ -18,7 +18,8 @@
         "nest:debug": "nest start --debug --watch",
         "nest:prod": "node dist/main",
         "release": "standard-version",
-        "cz": "git add . && git-cz"
+        "cz": "git add . && git-cz",
+        "rollup:build": "ts-node --project tsconfig.node.json ./script/rollup.ts"
     },
     "husky": {
         "hooks": {
@@ -37,6 +38,7 @@
         "vue-class-component": "^7.1.0",
         "vue-property-decorator": "^8.3.0",
         "vue-router": "^3.0.1",
+        "vue-tsx-support": "^2.3.3",
         "vuex": "^3.1.2",
         "vuex-class": "^0.3.2"
     },
@@ -160,6 +162,7 @@
         "prettier": "^1.19.1",
         "reflect-metadata": "^0.1.13",
         "rimraf": "^2.6.0",
+        "rollup-plugin-scss": "^2.1.0",
         "rxjs": "^6.5.3",
         "rxjs-compat": "^6.5.4",
         "sass": "^1.23.7",

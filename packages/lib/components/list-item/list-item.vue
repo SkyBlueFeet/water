@@ -1,11 +1,29 @@
+<script lang="tsx">
 import { formatDate } from "../../utils/util";
 import { VNode, VueConstructor, CreateElement } from "vue/types/umd";
 import { Vue, Prop, Component } from "vue-property-decorator";
+import "./test1.scss";
+
+interface ListItem {
+    title: string;
+    url: string;
+}
+
+type List = ListItem[];
 
 @Component({})
 export default class VListItem extends Vue {
     name = "v-list-item";
-    @Prop() list: Record<string, string>[];
+
+    // 渲染列表
+    //
+    @Prop({
+        // []
+        default: [],
+        required: true,
+        type: Array
+    })
+    list: List;
 
     render(h: CreateElement): VNode {
         return (
@@ -19,3 +37,13 @@ export default class VListItem extends Vue {
         );
     }
 }
+</script>
+<style lang="scss">
+@import "./test.scss";
+.v-list-item {
+    color: aqua;
+    &:hover {
+        color: blueviolet;
+    }
+}
+</style>

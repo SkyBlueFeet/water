@@ -6,11 +6,17 @@ export default {
       testList:[{title:"Hello"},{title:"World"},{title:"!"}]
     };
   },
+  props:{
+      dataIty:{
+          default:"",
+          type:[]
+      }
+  },
   created(){
 
   },
   render(h){
-    return <div><v-list-item list={ this.testList }></v-list-item> <h1>{`消息：${this.msg}`}</h1> <v-list>默认插槽</v-list></div>
+    return <div><v-list-item list={this.testList}></v-list-item> <h1>{`消息：${this.msg}`}</h1> <v-list>默认插槽</v-list></div>
   }
 };
 </script>
