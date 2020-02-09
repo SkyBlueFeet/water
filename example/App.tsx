@@ -7,8 +7,8 @@ import "@example/assets/css/app.css";
 @Component
 export default class App extends Vue {
     created(): void {
-        this.$$store.state.user.info.data = "sky blue";
-        console.log(_.cloneDeep(this.$$store.state.user.info));
+        // this.$$store.state.user.info.data = "sky blue";
+        // console.log(_.cloneDeep(this.$$store.state.user.info));
         console.log(README);
     }
     render(h: CreateElement): VNode {

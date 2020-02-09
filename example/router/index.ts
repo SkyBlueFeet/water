@@ -10,14 +10,16 @@ export default new Router({
         {
             path: "/",
             name: "Hello",
-            component: (): Promise<Component> =>
-                import("@example/components/HelloWorld")
+            component: (): Promise<
+                typeof import("@example/components/HelloWorld")
+            > => import("@example/components/HelloWorld")
         },
         {
             path: "/test",
             name: "test",
-            component: (): Promise<Component> =>
-                import("@example/components/jsx.vue")
+            component: (): Promise<
+                typeof import("@example/components/jsx.vue")
+            > => import("@example/components/jsx.vue")
         }
     ]
 });

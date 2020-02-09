@@ -15,6 +15,6 @@ declare module "vue/types/vue" {
         $router: VueRouter;
         $route: Route;
         $store: Vuex<any>;
-        $$store: Vuex<GlobalState>;
+        // $$store: Vuex<GlobalState>;
     }
 }

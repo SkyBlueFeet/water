@@ -3,7 +3,7 @@ import App from "./App";
 import router from "./router";
 import store from "./store";
 import { CreateElement, VNode } from "vue/types/umd";
-import sky from "skyui";
+import sky from "../packages";
 Vue.config.productionTip = false;
 
 Vue.prototype.$$store = store;
