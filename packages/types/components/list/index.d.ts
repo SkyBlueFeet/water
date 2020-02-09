@@ -1,2 +1,2 @@
-import Main from "./main";
-export default Main;
+import VList from "./main";
+export default VList;
