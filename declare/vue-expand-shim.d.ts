@@ -3,7 +3,6 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import { Route } from "vue-router";
 import { Store as Vuex } from "vuex";
-import { GlobalState } from "@example/store";
 // 全局变量设置
 declare global {
     const _: typeof lodash;
@@ -15,6 +14,5 @@ declare module "vue/types/vue" {
         $router: VueRouter;
         $route: Route;
         $store: Vuex<any>;
-        $$store: Vuex<GlobalState>;
     }
 }
