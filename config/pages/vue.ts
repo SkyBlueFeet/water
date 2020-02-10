@@ -1,8 +1,8 @@
 import { Entry } from "webpack";
 import { resolve } from "../utils";
 import { Options as PageOptions } from "html-webpack-plugin";
-import { env } from "../assembly";
 import { MixingPagesOption } from ".";
+import { env } from "../global";
 
 export default function(env: env): MixingPagesOption {
     const vueEntry: Entry = {

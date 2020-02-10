@@ -1,7 +1,7 @@
 import path from "path";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 
-import config from ".";
+import config from "./global";
 
 const isProduction = process.env.NODE_ENV === "production";
 

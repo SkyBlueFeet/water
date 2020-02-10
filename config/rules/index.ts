@@ -1,5 +1,5 @@
 import * as utils from "../utils";
-import config from "..";
+import config from "../global";
 
 import { mdLoader, json5Loader } from "./loaders";
 import { RuleSetRule } from "webpack";
@@ -20,25 +20,25 @@ const happypackOptions: MixinRuleOptions[] = [
             exclude: (file: string): boolean =>
                 /node_modules/.test(file) && !/\.vue\.js/.test(file)
         }
-    },
-    {
-        id: "ejs",
-        setRule: true,
-        rule: {
-            test: /\.ejs?$/,
-            use: [
-                {
-                    loader: "ejs-babel-loader",
-                    options: {
-                        babel: {
-                            module: true
-                        },
-                        attributes: ["img:data-src"]
-                    }
-                }
-            ]
-        }
     }
+    // {
+    //     id: "ejs",
+    //     setRule: true,
+    //     rule: {
+    //         test: /\.ejs?$/,
+    //         use: [
+    //             {
+    //                 loader: "ejs-babel-loader",
+    //                 options: {
+    //                     babel: {
+    //                         module: true
+    //                     },
+    //                     attributes: ["img:data-src"]
+    //                 }
+    //             }
+    //         ]
+    //     }
+    // }
 ];
 
 // 如果使用ESlint检查，则将该规则添加进去
@@ -76,6 +76,13 @@ const loaders: RuleSetRule[] = [
                 img: "src",
                 image: "xlink:href"
             }
+        }
+    },
+    {
+        test: /\.ejs?$/,
+        loader: "ejs-babel-loader",
+        options: {
+            // attrs: ["img:src"]
         }
     },
     {

@@ -3,13 +3,13 @@ import { Component, Prop } from "vue-property-decorator";
 import README from "@root/README.md";
 import logo from "@root/logo.png";
 import "@example/assets/css/app.css";
+import ejs from "./test.ejs";
 
 @Component
 export default class App extends Vue {
     created(): void {
-        // this.$$store.state.user.info.data = "sky blue";
-        // console.log(_.cloneDeep(this.$$store.state.user.info));
         console.log(README);
+        console.log(ejs());
     }
     render(h: CreateElement): VNode {
         return (

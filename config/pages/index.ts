@@ -2,7 +2,7 @@ import { Entry, Configuration, Plugin } from "webpack";
 import HtmlWebpackPlugin, { Options as HtmlOption } from "html-webpack-plugin";
 import vue from "./vue";
 import { resolve } from "../utils";
-import { env } from "../assembly";
+import { env } from "../global";
 
 export interface PreOption {
     rel: "preload";

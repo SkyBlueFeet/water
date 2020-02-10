@@ -4,7 +4,7 @@ import CommonJS from "@rollup/plugin-commonjs";
 import VuePlugin from "rollup-plugin-vue";
 import _ from "lodash";
 import { DEFAULT_EXTENSIONS } from "@babel/core";
-import scss from "rollup-plugin-scss";
+import styleProcess from "rollup-plugin-style-process";
 import filesize from "rollup-plugin-filesize";
 import { eslint } from "rollup-plugin-eslint";
 import { RollupOptions, OutputOptions, ModuleFormat } from "rollup";
@@ -160,59 +160,6 @@ function setOutput(formats: Array<umdFormat>): OutputOptions[] {
     );
 }
 
-// interface Loader {
-//     name: string;
-//     test: RegExp;
-//     process: (this: Context, input: Payload) => Promise<Payload> | Payload;
-// }
-
-// interface Context {
-//     /** Loader options */
-//     options: any;
-//     /** Sourcemap */
-//     sourceMap: any;
-//     /** Resource path */
-//     id: string;
-//     /** Files to watch */
-//     dependencies: Set<string>;
-//     /** Emit a waring */
-//     warn: any;
-//     /** https://rollupjs.org/guide/en#plugin-context */
-//     plugin: any;
-// }
-
-// interface Payload {
-//     /** File content */
-//     code: string;
-//     /** Sourcemap */
-//     map?: string | any;
-// }
-
-/**
- * 检测文件或文件夹是否存在
- * @param  {String} dir 要写入文件的文件夹
- * @param  {String} filename 写入文件的文件名
- * @param  {String} data 写入文件的数据
- */
-function writeFileSync(dir: string, filename: string, data: string): string {
-    const FilePath = path.resolve(dir, filename);
-    try {
-        fs.mkdirSync(dir, {
-            recursive: true //是否递归,默认false
-        });
-        fs.writeFileSync(FilePath, data, { flag: "w+" });
-        return FilePath;
-    } catch (error) {
-        console.error(error);
-        return "";
-    }
-}
-
-// function scss(this: Context, payload: Payload): Payload {
-//     writeFileSync(path.resolve($path, "../", "dist"), this.id, payload.code);
-//     return payload;
-// }
-
 const rollupConfig: RollupOptions = {
     input: $entry,
     output: setOutput($outputFormat),
@@ -243,104 +190,10 @@ const rollupConfig: RollupOptions = {
             extensions: $babelTransformFeild
         }),
         filesize(),
-        scss({
-            //Choose *one* of these possible "output:..." options
-            // Default behaviour is to write all styles to the bundle destination where .js is replaced by .css
-            // output: true,
-
-            // Filename to write all styles to
-            // output: "bundle.css",
-
-            // Callback that will be called ongenerate with two arguments:
-            // - styles: the contents of all style tags combined: 'body { color: green }'
-            // - styleNodes: an array of style objects: { filename: 'body { ... }' }
-            output: function(
-                styles: string,
-                styleNodes: Record<string, string>
-            ) {
-                type StyleNode = {
-                    nodeName: string;
-                    fileName: string;
-                    style: string;
-                    extension: string;
-                };
-                function formatStyleNode(
-                    styleNode: Record<string, string>,
-                    getName: (path: string) => string
-                ): StyleNode[] {
-                    return _.keys(styleNode).map(item => {
-                        const name = getName(item).split(".");
-                        return {
-                            fileName: name[0],
-                            extension: name[1],
-                            nodeName: item,
-                            style: styleNodes[item]
-                        };
-                    });
-                }
-
-                function getName(path: string): string {
-                    const matchVue = _(path)
-                        .split("/")
-                        .pop()
-                        .split("?")
-                        .shift();
-                    const matchCss = _(path)
-                        .split("/")
-                        .pop();
-                    return matchVue.endsWith(".vue")
-                        ? matchVue.replace(".vue", ".css")
-                        : matchCss;
-                }
-
-                formatStyleNode(styleNodes, getName).forEach(styleNode => {
-                    let code: string;
-                    if (
-                        styleNode.extension === "scss" ||
-                        styleNode.extension === "sass"
-                    ) {
-                        code = require("node-sass")
-                            .renderSync(
-                                Object.assign(
-                                    {
-                                        data: styleNode.style,
-                                        includePaths: ["node_modules/"]
-                                    },
-                                    {}
-                                )
-                            )
-                            .css.toString();
-                    } else if (styleNode.extension === "css") {
-                        code = styleNode.style;
-                    } else {
-                        throw new Error("没有配置该类型");
-                    }
-                    writeFileSync(
-                        path.resolve(__dirname, "../", $outDir, "style"),
-                        `${styleNode.fileName}.css`,
-                        code
-                    );
-                });
-                writeFileSync(
-                    path.resolve(__dirname, "../", $outDir, "style"),
-                    "index.css",
-                    styles
-                );
-            },
-
-            // Disable any style output or callbacks, import as string
-            // output: false,
-
-            // Determine if node process should be terminated on error (default: false)
-            failOnError: true
-
-            // Prefix global scss. Useful for variables and mixins.
-            // prefix: `@import "./fonts.scss";`
+        styleProcess({
+            extensions: ["css", "scss", "styl", "less"],
+            postcss: true
         })
-
-        // sassPlugin({
-        //     output: "bundle.css"
-        // })
     ],
     external: Object.keys($preSetExternal)
 };

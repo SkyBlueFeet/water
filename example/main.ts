@@ -6,7 +6,7 @@ import { CreateElement, VNode } from "vue/types/umd";
 import sky from "../packages";
 Vue.config.productionTip = false;
 
-Vue.prototype.$$store = store;
+// Vue.prototype.$$store = store;
 
 Vue.use(sky);
 

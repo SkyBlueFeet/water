@@ -7,9 +7,9 @@ import path from "path";
 
 process.env.NODE_ENV = "production";
 
-import config from "../config";
+import config from "../config/global";
 
-import assembly from "../config/assembly";
+import assembly from "../config";
 
 const spinner = ora("building for production...");
 spinner.start();

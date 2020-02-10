@@ -3,9 +3,9 @@ import webpack, { Configuration } from "webpack";
 
 process.env.NODE_ENV = "development";
 
-import assembly from "../config/assembly";
+import setConfig from "../config";
 
-assembly("development")
+setConfig("development")
     .then((devConfig: Configuration) => {
         const Compile = webpack(devConfig);
         const app = new WebpackDevServer(Compile, devConfig.devServer);
