@@ -1,4 +1,4 @@
-import webpack, { Stats } from "webpack";
+import webpack from "webpack";
 
 import ora from "ora";
 import rimraf from "rimraf";
@@ -7,22 +7,29 @@ import path from "path";
 
 process.env.NODE_ENV = "production";
 
-import config from "../config/global";
-
-import assembly from "../config";
+import client from "../example/build/webpack.client.config";
+import server from "../example/build/webpack.server.config";
 
 const spinner = ora("building for production...");
 spinner.start();
 
-rimraf(
-    path.join(config.build.assetsRoot, config.build.assetsSubDirectory),
-    err => {
-        if (err) throw err;
-        assembly("production")
-            .then(webpackConfig => {
-                webpack(webpackConfig, (err: Error, stats: Stats) => {
-                    spinner.stop();
-                    if (err) throw err;
+function build(): Promise<unknown> {
+    return new Promise((res, rej) => {
+        rimraf(path.join("../dist", "../static"), err => {
+            if (err) rej(err);
+            webpack(client, (err, stats) => {
+                if (err) rej(err);
+                process.stdout.write(
+                    stats.toString({
+                        colors: true,
+                        modules: false,
+                        children: true, // If you are using ts-loader, setting this to true will make TypeScript errors show up during build.
+                        chunks: false,
+                        chunkModules: false
+                    }) + "\n\n"
+                );
+                webpack(server, (err, stats) => {
+                    if (err) rej(err);
                     process.stdout.write(
                         stats.toString({
                             colors: true,
@@ -45,8 +52,11 @@ rimraf(
                                 "  Opening index.html over file:// won't work.\n"
                         )
                     );
+                    spinner.stop();
                 });
-            })
-            .catch(err => console.log(chalk.red(err)));
-    }
-);
+            });
+        });
+    });
+}
+
+export default build();
