@@ -90,12 +90,12 @@ export default function(env: env): Promise<Configuration> {
                     severity: FriendlyErrorsPlugin.Severity,
                     errors: string
                 ): void {
-                    if (severity !== "error" || config.dev.notifyOnErrors)
-                        return;
-
+                    // if (severity !== "error" || config.dev.notifyOnErrors)
+                    //     return;
+                    // console.log(errors);
                     Notifier.notify({
                         title: "Webpack",
-                        message: `${severity}: ${errors}`,
+                        message: `${severity.toString()}: ${errors.toString()}`,
                         icon: utils.resolve("logo.png")
                     });
                 }
@@ -114,7 +114,7 @@ export default function(env: env): Promise<Configuration> {
                     devWebpackConfig.devServer.port = port;
 
                     // Add FriendlyErrorsPlugin
-                    devWebpackConfig.plugins?.push(
+                    devWebpackConfig?.plugins.push(
                         new FriendlyErrorsPlugin(portfind(port))
                     );
 

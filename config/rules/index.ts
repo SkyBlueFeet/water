@@ -20,24 +20,6 @@ const happypackOptions: MixinRuleOptions[] = [
             exclude: (file: string): boolean =>
                 /node_modules/.test(file) && !/\.vue\.js/.test(file)
         }
-    },
-    {
-        id: "ejs",
-        setRule: true,
-        rule: {
-            test: /\.ejs?$/,
-            use: [
-                {
-                    loader: "ejs-babel-loader",
-                    options: {
-                        babel: {
-                            module: true
-                        },
-                        attributes: ["img:data-src"]
-                    }
-                }
-            ]
-        }
     }
 ];
 
@@ -78,6 +60,7 @@ const loaders: RuleSetRule[] = [
             }
         }
     },
+
     {
         test: /\.tsx?$/,
         use: [

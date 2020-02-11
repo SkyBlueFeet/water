@@ -1,9 +1,9 @@
 import Vue, { CreateElement, VNode } from "vue";
 import { Component, Prop } from "vue-property-decorator";
 import README from "@root/README.md";
-// import logo from "@root/logo.png";
+import logo from "@root/logo.png";
 import "@example/assets/css/app.css";
-// {/* <img src={logo} /> */}
+
 @Component
 export default class App extends Vue {
     created(): void {
@@ -14,6 +14,7 @@ export default class App extends Vue {
     render(h: CreateElement): VNode {
         return (
             <div id="app">
+                <img src={logo} />
                 <router-view />
             </div>
         );
