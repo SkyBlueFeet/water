@@ -14,9 +14,10 @@
         "alwaysStrict": true,
         "importHelpers": true,
         "incremental": true,
-        "sourceMap": true,
+        "sourceMap": false,
         "baseUrl": "./",
-        "noEmit": true,
+        "outDir":"output",
+        "noEmit": false,
         "lib": ["ES2015", "DOM", "ES2016", "ES2017"],
         "types": ["node", "webpack"]
     },
