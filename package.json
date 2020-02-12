@@ -1,6 +1,6 @@
 {
     "name": "express-vue-ssr",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "本项目是基于[vue-hackernews-2.0](https://github.com/vuejs/vue-hackernews-2.0)基础上的自定义修改。将webpack升级到了4.x版本。",
     "scripts": {
         "watch:dev": "ts-node --project tsconfig.node.json script/dev.ts",

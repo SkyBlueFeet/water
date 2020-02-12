@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.1](https://github.com/BengBu-YueZhang/custom-vue-ssr/compare/v4.0.0...v1.0.1) (2020-02-12)
+
+
+### Bug Fixes
+
+* **修复一直编译不成功不报错的问题:** 修复一直编译不成功不报错的问题 ([4b8a610](https://github.com/BengBu-YueZhang/custom-vue-ssr/commit/4b8a610ef0d38365fef9fbcd4e1ffe03dd753c0d))
+
 ## 4.0.0 (2020-02-10)
 
 
