@@ -29,7 +29,8 @@
                 "plugin:prettier/recommended"
             ],
             "rules": {
-                "require-jsdoc": 0
+                "require-jsdoc": 0,
+                "new-cap": 0
             }
         },
         {
@@ -40,7 +41,11 @@
                 "plugin:@typescript-eslint/recommended",
                 "plugin:vue/essential",
                 "plugin:prettier/recommended"
-            ]
+            ],
+            "rules": {
+                "@typescript-eslint/no-var-requires": 0,
+                "@typescript-eslint/no-explicit-any": 0
+            }
         },
         {
             "files": ["*.vue"],

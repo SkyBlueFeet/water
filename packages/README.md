@@ -1,1 +1,0 @@
-# vue-rollup-component-template
