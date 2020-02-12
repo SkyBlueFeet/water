@@ -1,5 +1,4 @@
 const webpack = require("webpack");
-const path = require("path");
 const merge = require("webpack-merge");
 const nodeExternals = require("webpack-node-externals");
 const VueSSRServerPlugin = require("vue-server-renderer/server-plugin");
@@ -8,19 +7,17 @@ const baseConfig = isProd
     ? require("./webpack.base.prod.config")
     : require("./webpack.base.dev.config");
 
-let config = require("../config");
+const global = require("./global");
 
-let $config =
-    process.env.NODE_ENV === "development"
-        ? config.development
-        : config.production;
+const $config =
+    process.env.NODE_ENV === "development" ? global.dev : global.prod;
 
 module.exports = merge(baseConfig, {
     target: "node",
 
     devtool: "#source-map",
 
-    entry: path.resolve(__dirname, "./../src/entry-server.js"),
+    entry: global.serverEntry,
 
     output: {
         filename: "server-bundle.js",

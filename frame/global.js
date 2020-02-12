@@ -1,9 +1,15 @@
 const path = require("path");
-const outputPath = path.resolve(process.cwd(), "./dist");
 
-module.exports = {
-    development: {
-        outputPath: outputPath,
+const setPath = (...url) => {
+    return path.resolve(process.cwd(), ...(url ? url : []));
+};
+
+const config = {
+    clientEntry: setPath("src/entry-client.js"),
+    serverEntry: setPath("src/entry-server.js"),
+    template: setPath("src/index.template.html"),
+    dev: {
+        outputPath: setPath("dist"),
         publicPath: "",
         filename: "[name].js",
         chunkFilename: "[name].chunk.js",
@@ -13,8 +19,8 @@ module.exports = {
             }
         }
     },
-    production: {
-        outputPath: outputPath,
+    prod: {
+        outputPath: setPath("dist"),
         publicPath: "/dist/",
         filename: "[name].[chunkhash].js",
         chunkFilename: "[name].[chunkhash].chunk.js",
@@ -25,3 +31,7 @@ module.exports = {
         }
     }
 };
+
+module.exports = config;
+
+// export default config;

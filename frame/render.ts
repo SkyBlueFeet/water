@@ -6,8 +6,7 @@ import {
     BundleRendererOptions
 } from "vue-server-renderer";
 import LRU from "lru-cache";
-import path from "path";
-const setupServer = require("../frame/build/setup-dev-server");
+import global from "./global";
 
 function createRenderer(
     bundle: string | object,
@@ -29,26 +28,25 @@ function createRenderer(
     }
 }
 
-const bundle = require("../dist/vue-ssr-server-bundle.json");
-const clientManifest = require("../dist/vue-ssr-client-manifest.json");
-
-const templatePath = path.resolve(__dirname, "./src/index.template.html");
-
-const template = fs.readFileSync(templatePath, "utf-8");
+const template = fs.readFileSync(global.template, "utf-8");
 
 function render(): BundleRenderer;
 function render(app?: Express): Promise<BundleRenderer>;
 function render(app?: Express): Promise<BundleRenderer> | BundleRenderer {
     let renderer: Promise<BundleRenderer> | BundleRenderer;
     if (app === undefined) {
+        const bundle = require(`${global.prod.outputPath}/vue-ssr-server-bundle.json`);
+        const clientManifest = require(`${global.prod.outputPath}/vue-ssr-client-manifest.json`);
+
         renderer = createRenderer(bundle, {
             template,
             clientManifest
         });
     } else {
+        const setupServer = require("./setup-dev-server");
         renderer = setupServer(
             app,
-            templatePath,
+            global.template,
             (bundle: string | object, options: BundleRendererOptions) => {
                 return createRenderer(bundle, options);
             }

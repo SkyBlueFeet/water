@@ -1,12 +1,10 @@
 const path = require("path");
 const VueLoaderPlugin = require("vue-loader/lib/plugin");
 
-const config = require("../config");
+const config = require("./global");
 
 const $config =
-    process.env.NODE_ENV === "development"
-        ? config.development
-        : config.production;
+    process.env.NODE_ENV === "development" ? config.dev : config.prod;
 
 module.exports = {
     output: {
