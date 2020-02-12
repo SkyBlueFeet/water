@@ -5,9 +5,10 @@ const setPath = (...url) => {
 };
 
 const config = {
+    tsconfig: setPath("tsconfig.webpack.json"),
     clientEntry: setPath("src/entry-client.js"),
     serverEntry: setPath("src/entry-server.js"),
-    template: setPath("src/index.template.html"),
+    template: setPath("src/index.html"),
     dev: {
         outputPath: setPath("dist"),
         publicPath: "",

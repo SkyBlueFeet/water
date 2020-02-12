@@ -15,7 +15,7 @@ module.exports = {
     },
 
     resolve: {
-        extensions: [".js", ".vue"],
+        extensions: [".ts", ".tsx", ".js"],
         alias: {
             "@": path.resolve(__dirname, "../src")
         }
@@ -32,6 +32,14 @@ module.exports = {
             {
                 test: /\.vue$/,
                 loader: "vue-loader"
+            },
+            {
+                test: /\.tsx?$/,
+                loader: "ts-loader",
+                options: {
+                    appendTsxSuffixTo: [/\.vue$/],
+                    configFile: config.tsconfig
+                }
             },
             {
                 test: /\.jsx?$/,

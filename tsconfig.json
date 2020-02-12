@@ -16,11 +16,11 @@
         "incremental": true,
         "sourceMap": false,
         "baseUrl": "./",
-        "outDir":"output",
+        "outDir": "output",
         "noEmit": false,
-        "lib": ["ES2015", "DOM", "ES2016", "ES2017"],
+        "lib": ["ES2015", "ES2016", "ES2017"],
         "types": ["node", "webpack"]
     },
-    "include": ["build", "config"],
+    "include": ["router", "script", "frame"],
     "exclude": ["node_modules", "dist", ".*"]
 }

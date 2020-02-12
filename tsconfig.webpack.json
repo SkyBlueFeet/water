@@ -1,0 +1,26 @@
+{
+    "compilerOptions": {
+        "moduleResolution": "node",
+        "noEmitOnError": true,
+        "declaration": true,
+        "declarationDir": "types",
+        "jsx": "preserve",
+        "jsxFactory": "h",
+        "removeComments": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "resolveJsonModule": true,
+        "downlevelIteration": true,
+        "esModuleInterop": true,
+        "module": "ESNext",
+        "target": "es5",
+        "alwaysStrict": true,
+        "incremental": true,
+        "sourceMap": false,
+        "baseUrl": ".",
+        "noEmit": false,
+        "lib": ["ES2015", "ES2016", "ES2017", "ESNext"],
+        "types": ["node", "webpack", "webpack-env", "vue", "lodash"]
+    },
+    "include": ["src", "declare"]
+}

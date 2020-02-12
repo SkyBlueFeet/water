@@ -6,7 +6,7 @@ import {
     BundleRendererOptions
 } from "vue-server-renderer";
 import LRU from "lru-cache";
-import global from "./global";
+import global from "../global";
 
 function createRenderer(
     bundle: string | object,
