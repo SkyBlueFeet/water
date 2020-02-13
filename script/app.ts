@@ -1,6 +1,5 @@
 import express, { Handler } from "express";
 import ejs from "ejs";
-import path from "path";
 
 // import cookieParser from "cookie-parser";
 import sassMiddleware from "node-sass-middleware";
@@ -21,8 +20,8 @@ app.use(express.urlencoded({ extended: false }));
 // app.use(cookieParser());
 app.use(
     sassMiddleware({
-        src: path.resolve(global.public, ".."),
-        dest: path.resolve(global.public, ".."),
+        src: process.cwd(),
+        dest: process.cwd(),
         indentedSyntax: false, // true = .sass and false = .scss
         sourceMap: !isProd,
         debug: !isProd,

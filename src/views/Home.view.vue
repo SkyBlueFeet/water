@@ -6,7 +6,7 @@
                 src="/public/images/SaoirseRonan1.jpg"
             />
         </div>
-        <router-link class="home-link" to="/detail">MORE!</router-link>
+        <router-link class="home-link" to="/detail">MORE</router-link>
     </div>
 </template>
 

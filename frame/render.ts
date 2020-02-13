@@ -7,6 +7,7 @@ import {
 } from "vue-server-renderer";
 import LRU from "lru-cache";
 import global from "../global";
+import setupServer from "./setup-dev-server";
 
 function createRenderer(
     bundle: string | object,
@@ -43,13 +44,11 @@ function render(app?: Express): Promise<BundleRenderer> | BundleRenderer {
             clientManifest
         });
     } else {
-        const setupServer = require("./setup-dev-server");
         renderer = setupServer(
             app,
             global.template,
-            (bundle: string | object, options: BundleRendererOptions) => {
-                return createRenderer(bundle, options);
-            }
+            (bundle: string | object, options: BundleRendererOptions) =>
+                createRenderer(bundle, options)
         );
     }
 

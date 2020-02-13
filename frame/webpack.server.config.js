@@ -9,9 +9,6 @@ const baseConfig = isProd
 
 const global = require("./global");
 
-const $config =
-    process.env.NODE_ENV === "development" ? global.dev : global.prod;
-
 module.exports = merge(baseConfig, {
     target: "node",
 
@@ -31,7 +28,9 @@ module.exports = merge(baseConfig, {
     plugins: [
         new webpack.DefinePlugin({
             VUE_ENV: '"server"',
-            ...$config.vars
+            "process.env": {
+                NODE_ENV: JSON.stringify(process.env.NODE_ENV)
+            }
         }),
         new VueSSRServerPlugin()
     ]
