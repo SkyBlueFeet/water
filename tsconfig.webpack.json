@@ -16,11 +16,11 @@
         "target": "es5",
         "alwaysStrict": true,
         "incremental": true,
-        "sourceMap": false,
+        "sourceMap": true,
         "baseUrl": ".",
         "noEmit": false,
-        "lib": ["ES2015", "ES2016", "ES2017", "ESNext"],
+        "lib": ["ES2015", "ES2016", "ES2017", "ESNext", "DOM"],
         "types": ["node", "webpack", "webpack-env", "vue", "lodash"]
     },
-    "include": ["src", "declare"]
+    "include": ["unk", "declare", "src"]
 }

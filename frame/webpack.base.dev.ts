@@ -1,7 +1,7 @@
-const merge = require("webpack-merge");
-const baseConfig = require("./webpack.base.config");
+import merge from "webpack-merge";
+import baseConfig from "./webpack.base";
 
-module.exports = merge(baseConfig, {
+export default merge(baseConfig, {
     mode: "development",
 
     devtool: "#cheap-module-source-map",
@@ -36,6 +36,23 @@ module.exports = merge(baseConfig, {
                     },
                     {
                         loader: "less-loader"
+                    }
+                ]
+            },
+            {
+                test: /\.(sa|sc)ss$/,
+                use: [
+                    {
+                        loader: "vue-style-loader"
+                    },
+                    {
+                        loader: "css-loader"
+                    },
+                    {
+                        loader: "postcss-loader"
+                    },
+                    {
+                        loader: "sass-loader"
                     }
                 ]
             }

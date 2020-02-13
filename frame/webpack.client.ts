@@ -1,14 +1,14 @@
-const webpack = require("webpack");
-const merge = require("webpack-merge");
-const VueSSRClientPlugin = require("vue-server-renderer/client-plugin");
+import webpack from "webpack";
+import merge from "webpack-merge";
+import VueSSRClientPlugin from "vue-server-renderer/client-plugin";
 const isProd = process.env.NODE_ENV === "production";
-const baseConfig = isProd
-    ? require("./webpack.base.prod.config")
-    : require("./webpack.base.dev.config");
+import prod from "./webpack.base.prod";
+import dev from "./webpack.base.dev";
+const baseConfig = isProd ? prod : dev;
 
-const global = require("./global");
+import global from "../global";
 
-module.exports = merge(baseConfig, {
+export default merge(baseConfig, {
     entry: {
         app: global.clientEntry
     },

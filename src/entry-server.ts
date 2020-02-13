@@ -1,6 +1,10 @@
 /* eslint-disable prefer-promise-reject-errors */
 import { createApp } from "./app";
 
+declare interface Component {
+    asyncData: any;
+}
+
 export default context => {
     return new Promise((resolve, reject) => {
         const { app, router, store } = createApp();
@@ -23,9 +27,9 @@ export default context => {
 
             Promise.all(
                 matchedComponents.map(
-                    ({ asyncData }) =>
-                        asyncData &&
-                        asyncData({
+                    (c: any) =>
+                        c.asyncData &&
+                        c.asyncData({
                             store,
                             route: router.currentRoute
                         })

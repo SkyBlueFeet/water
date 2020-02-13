@@ -6,14 +6,17 @@
     </div>
 </template>
 
-<script>
-export default {
-    title: "SaoirseRonan",
+<script lang="ts">
+import Vue, { CreateElement, VNode } from "vue";
+import { Component, Prop } from "vue-property-decorator";
 
+@Component({})
+export default class DetailView extends Vue {
+    title = "SaoirseRonan";
     asyncData({ store }) {
         return store.dispatch("user/getImages");
     }
-};
+}
 </script>
 
 <style lang="less" scoped>

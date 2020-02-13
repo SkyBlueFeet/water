@@ -1,15 +1,16 @@
-const webpack = require("webpack");
-const merge = require("webpack-merge");
-const nodeExternals = require("webpack-node-externals");
-const VueSSRServerPlugin = require("vue-server-renderer/server-plugin");
+import webpack from "webpack";
+import merge from "webpack-merge";
+import nodeExternals from "webpack-node-externals";
+import VueSSRServerPlugin from "vue-server-renderer/server-plugin";
 const isProd = process.env.NODE_ENV === "production";
-const baseConfig = isProd
-    ? require("./webpack.base.prod.config")
-    : require("./webpack.base.dev.config");
+import prod from "./webpack.base.prod";
+import dev from "./webpack.base.dev";
 
-const global = require("./global");
+const baseConfig = isProd ? prod : dev;
 
-module.exports = merge(baseConfig, {
+import global from "../global";
+
+export default merge(baseConfig, {
     target: "node",
 
     devtool: "#source-map",

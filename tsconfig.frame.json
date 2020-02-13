@@ -3,8 +3,6 @@
         "moduleResolution": "node",
         "noEmitOnError": true,
         "declaration": false,
-        "jsx": "preserve",
-        "jsxFactory": "h",
         "removeComments": true,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
@@ -20,9 +18,9 @@
         "baseUrl": "./",
         "outDir": "output",
         "noEmit": false,
-        "lib": ["ES2015", "ES2016", "ES2017", "DOM"],
+        "lib": ["ES2015", "ES2016", "ES2017"],
         "types": ["node", "webpack"]
     },
-    "include": ["router", "script", "frame", "declare", "src", "src"],
+    "include": ["router", "script", "frame"],
     "exclude": ["node_modules", "dist", ".*"]
 }

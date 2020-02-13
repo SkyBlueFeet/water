@@ -6,10 +6,10 @@ import chalk from "chalk";
 
 process.env.NODE_ENV = "production";
 
-import client from "../frame/webpack.client.config";
-import server from "../frame/webpack.server.config";
+import client from "../frame/webpack.client";
+import server from "../frame/webpack.server";
 
-import global = require("../frame/global");
+import global from "../global";
 const spinner = ora("building for production...");
 spinner.start();
 

@@ -10,13 +10,13 @@ const user = {
     getters: {},
 
     mutations: {
-        setImages(state, images) {
+        setImages(state, images): void {
             state.images = images;
         }
     },
 
     actions: {
-        getImages({ commit }) {
+        getImages({ commit }): void {
             const url = "http://127.0.0.1:7070/api/detail";
 
             axios.get(url).then(res => {

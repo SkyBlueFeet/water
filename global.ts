@@ -8,14 +8,16 @@ const config = {
     tsconfig: setPath("tsconfig.webpack.json"),
     public: setPath("public"),
     views: setPath("views"),
-    clientEntry: setPath("src/entry-client.js"),
-    serverEntry: setPath("src/entry-server.js"),
+    clientEntry: setPath("src/entry-client.ts"),
+    serverEntry: setPath("src/entry-server.ts"),
     template: setPath("src/index.html"),
     dev: {
-        outputPath: setPath("dist")
+        outputPath: setPath("dist"),
+        publicPath: ""
     },
     prod: {
-        outputPath: setPath("dist")
+        outputPath: setPath("dist"),
+        publicPath: "/dist/"
     }
 };
 

@@ -1,19 +1,26 @@
-<template>
-    <div class="home">
-        <div class="home-images">
-            <img
-                class="home-images-cover1"
-                src="/public/images/SaoirseRonan1.jpg"
-            />
-        </div>
-        <router-link class="home-link" to="/detail">MORE</router-link>
-    </div>
-</template>
+<script lang="tsx">
+import Vue, { CreateElement, VNode } from "vue";
+import { Component, Prop } from "vue-property-decorator";
 
-<script>
-export default {
-    title: "SaoirseRonan"
-};
+@Component({})
+export default class HomeView extends Vue {
+    title = "SaoirseRonan";
+    render(h) {
+        return (
+            <div class="home">
+                <div class="home-images">
+                    <img
+                        class="home-images-cover1"
+                        src="/public/images/SaoirseRonan1.jpg"
+                    />
+                </div>
+                <router-link class="home-link" to="/detail">
+                    MORE
+                </router-link>
+            </div>
+        );
+    }
+}
 </script>
 
 <style lang="less" scoped>

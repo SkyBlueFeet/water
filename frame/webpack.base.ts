@@ -1,17 +1,19 @@
-const path = require("path");
-const VueLoaderPlugin = require("vue-loader/lib/plugin");
+import path from "path";
+import { Configuration } from "webpack";
+import VueLoaderPlugin from "vue-loader/lib/plugin";
 
-const config = require("./global");
+import config from "../global";
 
-const $config =
-    process.env.NODE_ENV === "development" ? config.dev : config.prod;
+const isProd = process.env.NODE_ENV === "production";
 
-module.exports = {
+const $config = isProd ? config.prod : config.dev;
+
+const webpackConfig: Configuration = {
     output: {
         path: $config.outputPath,
         publicPath: $config.publicPath,
-        filename: $config.filename,
-        chunkFilename: $config.chunkFilename
+        filename: "[name].js",
+        chunkFilename: "[name].chunk.js"
     },
 
     resolve: {
@@ -34,18 +36,24 @@ module.exports = {
                 loader: "vue-loader"
             },
             {
-                test: /\.tsx?$/,
-                loader: "ts-loader",
-                options: {
-                    appendTsxSuffixTo: [/\.vue$/],
-                    configFile: config.tsconfig
-                }
-            },
-            {
                 test: /\.jsx?$/,
                 loader: "babel-loader",
                 exclude: /node_modules/
             },
+            {
+                test: /\.tsx?$/,
+                use: [
+                    "babel-loader",
+                    {
+                        loader: "ts-loader",
+                        options: {
+                            appendTsxSuffixTo: [/\.vue$/],
+                            configFile: config.tsconfig
+                        }
+                    }
+                ]
+            },
+
             {
                 test: /\.(png|jpe?g|gif|svg)(\?\S*)?$/,
                 use: [
@@ -84,3 +92,5 @@ module.exports = {
 
     plugins: [new VueLoaderPlugin()]
 };
+
+export default webpackConfig;

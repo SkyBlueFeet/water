@@ -7,10 +7,10 @@ import chokidar from "chokidar";
 import { BundleRenderer, BundleRendererOptions } from "vue-server-renderer";
 import { Express } from "express";
 import devWare from "webpack-dev-middleware";
-import hotWare = require("webpack-hot-middleware");
+import hotWare from "webpack-hot-middleware";
 
-import clientConfig = require("./webpack.client.config");
-import serverConfig = require("./webpack.server.config");
+import clientConfig from "./webpack.client";
+import serverConfig from "./webpack.server";
 
 const readFile = (fs: MFS, file: string): string => {
     try {

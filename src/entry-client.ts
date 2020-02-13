@@ -34,7 +34,9 @@ router.onReady(() => {
             return diffed || (diffed = prevMatched[i] !== c);
         });
 
-        const asyncDataHooks = activated.map(c => c.asyncData).filter(_ => _);
+        const asyncDataHooks = activated
+            .map((c: any) => c.asyncData)
+            .filter(_ => _);
 
         if (!asyncDataHooks.length) {
             return next();

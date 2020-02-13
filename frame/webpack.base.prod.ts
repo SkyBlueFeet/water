@@ -1,21 +1,21 @@
-const webpack = require("webpack");
-const path = require("path");
-const merge = require("webpack-merge");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const baseConfig = require("./webpack.base.config");
-const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+import webpack from "webpack";
+import path from "path";
+import merge from "webpack-merge";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import baseConfig from "./webpack.base";
+import OptimizeCssAssetsPlugin from "optimize-css-assets-webpack-plugin";
+import UglifyJsPlugin from "uglifyjs-webpack-plugin";
 
-class ServerMiniCssExtractPlugin extends MiniCssExtractPlugin {
-    getCssChunkObject(mainChunk) {
-        return {};
-    }
-}
+// class ServerMiniCssExtractPlugin extends MiniCssExtractPlugin {
+//     getCssChunkObject(mainChunk: any): object {
+//         return {};
+//     }
+// }
 
-module.exports = merge(baseConfig, {
+export default merge(baseConfig, {
     mode: "production",
 
-    devtool: "false",
+    devtool: false,
 
     optimization: {
         minimizer: [
@@ -46,16 +46,16 @@ module.exports = merge(baseConfig, {
                     chunks: "all",
                     test: /[\\/]node_modules[\\/]/,
                     priority: 20
-                },
-                common: {
-                    name: "common-chunk",
-                    chunks: "all",
-                    minChunks: 2,
-                    test: path.resolve(__dirname, "./../src/components"),
-                    priority: 10,
-                    enforce: true,
-                    reuseExistingChunk: true
                 }
+                // common: {
+                //     name: "common-chunk",
+                //     chunks: "all",
+                //     minChunks: 2,
+                //     test: path.resolve(__dirname, "./../src/components"),
+                //     priority: 10,
+                //     enforce: true,
+                //     reuseExistingChunk: true
+                // }
             }
         }
     },
@@ -66,7 +66,7 @@ module.exports = merge(baseConfig, {
                 test: /\.css$/,
                 use: [
                     {
-                        loader: ServerMiniCssExtractPlugin.loader
+                        loader: MiniCssExtractPlugin.loader
                     },
                     {
                         loader: "css-loader"
@@ -80,7 +80,7 @@ module.exports = merge(baseConfig, {
                 test: /\.less$/,
                 use: [
                     {
-                        loader: ServerMiniCssExtractPlugin.loader
+                        loader: MiniCssExtractPlugin.loader
                     },
                     {
                         loader: "css-loader"
@@ -92,12 +92,29 @@ module.exports = merge(baseConfig, {
                         loader: "less-loader"
                     }
                 ]
+            },
+            {
+                test: /\.(sa|sc)ss$/,
+                use: [
+                    {
+                        loader: MiniCssExtractPlugin.loader
+                    },
+                    {
+                        loader: "css-loader"
+                    },
+                    {
+                        loader: "postcss-loader"
+                    },
+                    {
+                        loader: "sass-loader"
+                    }
+                ]
             }
         ]
     },
 
     plugins: [
-        new ServerMiniCssExtractPlugin({
+        new MiniCssExtractPlugin({
             filename: "[contenthash].css"
         }),
         new webpack.HashedModuleIdsPlugin({
@@ -109,7 +126,9 @@ module.exports = merge(baseConfig, {
             if (chunk.name) {
                 return chunk.name;
             }
-            return Array.from(chunk.modulesIterable, m => m.id).join("_");
+            return Array.from(chunk.modulesIterable, (m: any) => m.id).join(
+                "_"
+            );
         })
     ]
 });
