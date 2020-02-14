@@ -1,5 +1,6 @@
 import merge from "webpack-merge";
 import baseConfig from "./webpack.base";
+// import ExtractCssChunks = require("extract-css-chunks-webpack-plugin");
 
 export default merge(baseConfig, {
     mode: "development",

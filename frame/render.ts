@@ -8,6 +8,7 @@ import {
 import LRU from "lru-cache";
 import global from "../global";
 import setupServer from "./setup-dev-server";
+// import setupServer = require("./setup-dev-server");
 
 function createRenderer(
     bundle: string | object,

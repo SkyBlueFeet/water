@@ -2,8 +2,6 @@
     "compilerOptions": {
         "moduleResolution": "node",
         "noEmitOnError": true,
-        "declaration": true,
-        "declarationDir": "types",
         "jsx": "preserve",
         "jsxFactory": "h",
         "removeComments": true,
@@ -22,5 +20,6 @@
         "lib": ["ES2015", "ES2016", "ES2017", "ESNext", "DOM"],
         "types": ["node", "webpack", "webpack-env", "vue", "lodash"]
     },
-    "include": ["unk", "declare", "src"]
+    "include": ["declare", "src"],
+    "exclude": ["node_modules"]
 }

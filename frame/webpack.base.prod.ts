@@ -1,16 +1,16 @@
 import webpack from "webpack";
 import path from "path";
 import merge from "webpack-merge";
-import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import MiniCssExtractPlugin = require("mini-css-extract-plugin");
 import baseConfig from "./webpack.base";
 import OptimizeCssAssetsPlugin from "optimize-css-assets-webpack-plugin";
 import UglifyJsPlugin from "uglifyjs-webpack-plugin";
 
-// class ServerMiniCssExtractPlugin extends MiniCssExtractPlugin {
-//     getCssChunkObject(mainChunk: any): object {
-//         return {};
-//     }
-// }
+class ServerMiniCssExtractPlugin extends MiniCssExtractPlugin {
+    getCssChunkObject(mainChunk): object {
+        return {};
+    }
+}
 
 export default merge(baseConfig, {
     mode: "production",
@@ -46,16 +46,16 @@ export default merge(baseConfig, {
                     chunks: "all",
                     test: /[\\/]node_modules[\\/]/,
                     priority: 20
+                },
+                common: {
+                    name: "common-chunk",
+                    chunks: "all",
+                    minChunks: 2,
+                    test: path.resolve(process.cwd(), "src/views"),
+                    priority: 10,
+                    enforce: true,
+                    reuseExistingChunk: true
                 }
-                // common: {
-                //     name: "common-chunk",
-                //     chunks: "all",
-                //     minChunks: 2,
-                //     test: path.resolve(__dirname, "./../src/components"),
-                //     priority: 10,
-                //     enforce: true,
-                //     reuseExistingChunk: true
-                // }
             }
         }
     },
@@ -66,7 +66,7 @@ export default merge(baseConfig, {
                 test: /\.css$/,
                 use: [
                     {
-                        loader: MiniCssExtractPlugin.loader
+                        loader: ServerMiniCssExtractPlugin.loader
                     },
                     {
                         loader: "css-loader"
@@ -80,7 +80,10 @@ export default merge(baseConfig, {
                 test: /\.less$/,
                 use: [
                     {
-                        loader: MiniCssExtractPlugin.loader
+                        loader: ServerMiniCssExtractPlugin.loader,
+                        options: {
+                            insert: "head"
+                        }
                     },
                     {
                         loader: "css-loader"
@@ -97,7 +100,10 @@ export default merge(baseConfig, {
                 test: /\.(sa|sc)ss$/,
                 use: [
                     {
-                        loader: MiniCssExtractPlugin.loader
+                        loader: ServerMiniCssExtractPlugin.loader,
+                        options: {
+                            insert: "head"
+                        }
                     },
                     {
                         loader: "css-loader"
@@ -114,8 +120,9 @@ export default merge(baseConfig, {
     },
 
     plugins: [
-        new MiniCssExtractPlugin({
-            filename: "[contenthash].css"
+        new ServerMiniCssExtractPlugin({
+            filename: "[name].[hash].css",
+            chunkFilename: "[id].[hash].css"
         }),
         new webpack.HashedModuleIdsPlugin({
             hashFunction: "sha256",

@@ -30,7 +30,8 @@
             ],
             "rules": {
                 "require-jsdoc": 0,
-                "new-cap": 0
+                "new-cap": 0,
+                "prefer-promise-reject-errors":0
             }
         },
         {

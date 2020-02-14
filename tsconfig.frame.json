@@ -10,7 +10,7 @@
         "downlevelIteration": true,
         "esModuleInterop": true,
         "module": "CommonJS",
-        "target": "ES5",
+        "target": "ES6",
         "alwaysStrict": true,
         "importHelpers": true,
         "incremental": true,

@@ -1,9 +1,4 @@
-/* eslint-disable prefer-promise-reject-errors */
 import { createApp } from "./app";
-
-declare interface Component {
-    asyncData: any;
-}
 
 export default context => {
     return new Promise((resolve, reject) => {

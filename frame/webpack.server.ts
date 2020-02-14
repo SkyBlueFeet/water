@@ -23,7 +23,7 @@ export default merge(baseConfig, {
     },
 
     externals: nodeExternals({
-        whitelist: /\.css$/
+        whitelist: /\.(css|ts|tsx|scss)$/
     }),
 
     plugins: [
