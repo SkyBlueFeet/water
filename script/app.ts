@@ -1,4 +1,4 @@
-import express, { Handler } from "express";
+import express, { Handler, Express } from "express";
 import ejs from "ejs";
 
 // import cookieParser from "cookie-parser";
@@ -11,7 +11,6 @@ import user from "../router/user";
 import cookieParser from "cookie-parser";
 import compression = require("compression");
 import tokenAuth from "../handler/token.auth";
-
 const isProd = process.env.NODE_ENV === "production";
 
 const app = express();
@@ -57,7 +56,7 @@ app.use("/dist", serve(global.prod.outputPath, isProd));
 app.use("/public", serve(global.public, isProd));
 
 //Token
-app.use("/", tokenAuth.middleWare);
+app.use("*", tokenAuth.middleWare);
 
 // Router
 app.use("/", index);

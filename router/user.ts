@@ -31,8 +31,9 @@ user.post("/login", function(req, res, next) {
             // 将用户id传入并生成token
             const jwt = new tokenAuth(results[0].uid);
             const token = jwt.generateToken();
-            console.log(token);
-            res.redirect("/");
+            res.cookie("token", token);
+            // console.log(res.set);
+            res.redirect("/nuxt");
         } else {
             res.render("login", loginStatus("user", true));
         }

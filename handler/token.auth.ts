@@ -48,7 +48,7 @@ export default class Jwt {
 
     static middleWare(req: Request, res: Response, next: NextFunction): void {
         if (global.blacklist.includes(req.url)) {
-            const token = req.headers.taken;
+            const token = req.cookies.token;
             const jwt = new Jwt(token);
             const result = jwt.verifyToken();
             if (result == "err") next(createError(403));
