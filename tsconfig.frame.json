@@ -21,6 +21,14 @@
         "lib": ["ES2015", "ES2016", "ES2017"],
         "types": ["node", "webpack"]
     },
-    "include": ["router", "script", "frame"],
+    "include": [
+        "router",
+        "script",
+        "frame",
+        "mysql",
+        "handler",
+        "public",
+        "views"
+    ],
     "exclude": ["node_modules", "dist", ".*"]
 }

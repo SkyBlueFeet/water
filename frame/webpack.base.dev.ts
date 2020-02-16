@@ -1,6 +1,7 @@
 import merge from "webpack-merge";
 import baseConfig from "./webpack.base";
 // import ExtractCssChunks = require("extract-css-chunks-webpack-plugin");
+import FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin");
 
 export default merge(baseConfig, {
     mode: "development",
@@ -59,4 +60,12 @@ export default merge(baseConfig, {
             }
         ]
     }
+    // plugins: [
+    //     new FriendlyErrorsWebpackPlugin({
+    //         compilationSuccessInfo: {
+    //             messages: [`正在运行`],
+    //             notes: [`http://localhost:8080`]
+    //         }
+    //     })
+    // ]
 });

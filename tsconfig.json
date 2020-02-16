@@ -23,6 +23,16 @@
         "lib": ["ES2015", "ES2016", "ES2017", "DOM"],
         "types": ["node", "webpack"]
     },
-    "include": ["router", "script", "frame", "declare", "src", "src"],
+    "include": [
+        "router",
+        "script",
+        "frame",
+        "declare",
+        "src",
+        "mysql",
+        "public",
+        "handler/create.sql.ts",
+        "handler/query.ts"
+    ],
     "exclude": ["node_modules", "dist", ".*"]
 }

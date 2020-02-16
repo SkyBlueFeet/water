@@ -1,6 +1,6 @@
 import { createApp } from "./app";
 
-export default context => {
+export default (context: any): Promise<any> => {
     return new Promise((resolve, reject) => {
         const { app, router, store } = createApp();
 

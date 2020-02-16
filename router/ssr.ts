@@ -9,7 +9,6 @@ export default function(
         "*",
         async (req, res): Promise<void> => {
             const bundleRenderer = await ready;
-            console.log(req.params[0]);
             res.setHeader("Content-Type", "text/html");
 
             const handleError = (err: any): void => {
