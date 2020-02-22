@@ -5,3 +5,5 @@ console.log(
 );
 
 console.log(path.join("/public/stylesheets/index.css"));
+
+console.log("/user/3pkrvb3w/message/".split("/"));

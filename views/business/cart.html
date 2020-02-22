@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <%- include("../partials/_meta.html")  %>
+    <title>购物车 | <%= title %></title>
+    <%- include("../partials/public.css.html")  %>
+    <style>
+        @media(min-width: 992px) {
+            .goods {
+                /* height: 5rem; */
+                font-size: 0.9rem;
+                line-height: 5rem;
+                text-align: center;
+                /* line-height: 5rem; */
+            }
+
+            .input-position {
+                margin-top: 1.5rem;
+            }
+        }
+
+        #app {
+            min-height: calc(100vh - 25rem);
+
+        }
+
+        .cart-pay__loading {
+            height: 100vh;
+            width: 100vw;
+            position: fixed;
+            z-index: 100;
+            background-color: rgba(255, 255, 255, 0.7);
+            margin-top: 5rem;
+        }
+
+        .cart-pay__container {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <%- include("../partials/_header.html")  %>
+    <div id="app">
+        <div class="cart-pay__loading" v-show="isLoading">
+            <div class="cart-pay__container">
+                <div class="spinner-border text-success" role="status">
+                    <span class="sr-only">正在进行安全检查，请稍后。。。</span>
+                </div>
+                <label class="text-secondary" v-show="isJiancha">正在进行安全检查，请稍后。。。</label>
+                <label class="text-info" v-show="isSubmit ">检查成功！开始提交。。。</label>
+                <label class="text-success" v-show="isSuccess">支付成功！</label>
+            </div>
+        </div>
+        <div class="border-top container d-flex flex-column">
+            <div v-show="total===0" class="row goods border text-center">
+                <span>购物车已被清空</span>
+            </div>
+            <template v-for="(goods,index) in cartList" v-if="goods!==undefined">
+                <div class="row goods border-bottom pt-md-3 pb-md-3" :index="index">
+                    <div class="col-md-2">
+                        <img src="/public/images/login.jpeg" height="75" width="75" />
+                    </div>
+                    <div class="col-md-3"> {{ goods.item.title}} </div>
+                    <div class="col-md-1"> {{ goods.item.specification }} </div>
+                    <div class="col-md-1">￥ {{ goods.item.price }} </div>
+                    <div class="col-md-1">
+                        <input min="0" @change="test" class="form-control form-control-sm input-position" type="number"
+                            v-model="goods.num">
+                    </div>
+                    <div class="col-md-1">￥ {{ goods.num * goods.item.price }} </div>
+                    <div class="col-md-2">
+                        <button @click.prevent="remove(index)" class="btn btn-link">移除</button>
+                    </div>
+                </div>
+            </template>
+            <form name="pay" action="/business/order" method="GET" class="row border-bottom pt-md-3 pb-md-3 total">
+                <div class="col-6 order-2">
+                    <button :disabled="total===0" class="btn btn-danger float-right">确 认 订
+                        单</button>
+                </div>
+                <div class="col-6 order-1">
+                    总计 ￥ {{total}}
+                </div>
+            </form>
+        </div>
+    </div>
+    <%- include("../partials/_footer.html")  %>
+    <script src="/public/js/vue<%= isProd?'.min':'' %>.js"></script>
+    <script>
+        var vm = new Vue({
+            el: "#app",
+            data() {
+                return {
+                    cartList: {},
+                    total: 0,
+                    isLoading: false,
+                    isJiancha: false,
+                    isSubmit: false,
+                    isSuccess: false
+                }
+            },
+            mounted() {
+                var cartList = JSON.parse(window.localStorage.getItem("cartList") || "{}");
+                this.cartList = cartList;
+                this.total = this.getTotal(cartList);
+                console.log(this.getTotal(cartList));
+            },
+            computed: {
+
+            },
+            methods: {
+                test() {
+                    this.total = this.getTotal(this.cartList);
+                },
+                getTotal(cartList) {
+                    var total;
+                    try {
+                        var _keys = Object.keys(cartList);
+                        if (_keys.length > 1) {
+                            var total = 0;
+                            for (var index = 0; index < _keys.length; index++) {
+                                var element = cartList[_keys[index]];
+                                total += Number(element.num) * Number(element.item.price)
+                            }
+                            return total;
+                        } else {
+                            total = cartList[_keys[0]].num * cartList[_keys[0]].item.price;
+                        }
+                    } catch (error) {
+                        console.log(error)
+                        total = 0;
+                    }
+                    return total;
+                },
+                submit() {
+                    this.isLoading = true;
+                    var loading = setTimeout(function () {
+                        vm.isJiancha = true;
+                        loading = setTimeout(function () {
+                            vm.isJiancha = false;
+                            vm.isSubmit = true;
+                            loading = setTimeout(function () {
+                                vm.isSubmit = false;
+                                vm.isSuccess = true;
+                                loading = setTimeout(function () {
+                                    vm.isLoading = false;
+                                    localStorage.clear();
+                                    document.forms[1].submit()
+                                }, 500)
+                            }, 1000)
+                        }, 2000)
+                    }, 500);
+                },
+                remove(id) {
+                    var _temp = {};
+                    Object.keys(this.cartList).forEach(function (i) {
+                        if (i !== id) _temp[i.toString()] = vm.cartList[i];
+                    })
+                    this.cartList = _temp;
+                    this.total = this.getTotal(_temp);
+                    localStorage.setItem("cartList", JSON.stringify(_temp))
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

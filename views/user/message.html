@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicons -->
+    <%- include("../partials/_meta.html") %>
+    <title>个人信息 | <%= title %></title>
+    <!-- Bootstrap core CSS -->
+    <%- include("../partials/public.css.html")  %>
+
+
+
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+
+        html {
+            font-size: 14px;
+        }
+
+        @media (min-width: 768px) {
+            html {
+                font-size: 16px;
+            }
+        }
+
+        .container {
+            max-width: 960px;
+        }
+
+        .pricing-header {
+            max-width: 700px;
+        }
+
+        .card-deck .card {
+            min-width: 220px;
+        }
+
+        @media(min-width: 923px) {
+            body {
+                padding-top: 9rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <%- include("../partials/_header.html") %>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 order-0 order-md-1 mb-4">
+                    <h5>当前页面</h5>
+                    <%- include("../partials/_cart.html") %>
+                </div>
+                <div class="col-md-8 order-5 order-md-3">
+                    <h4 class="mb-3">个人信息</h4>
+                    <form class="needs-validation" action="/user/update" method="POST">
+                        <div class="mb-3">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputGroupFileAddon01">设置头像</span>
+                                </div>
+                                <div class="custom-file">
+                                    <input @change="setFile" type="file" class="custom-file-input"
+                                        id="inputGroupFile01">
+                                    <label id="fileLabel" class="custom-file-label"
+                                        for="inputGroupFile01">{{fileName}}</label>
+                                </div>
+                            </div>
+                            <input name="uavatar" type="hidden" id="uavatar">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="uname">用户名</label>
+                                <input type="text" name="uname" class="form-control" id="uname" placeholder=""
+                                    value="<%= detils.uname %>">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="otel">联系方式</label>
+                                <input pattern=".{8,11}" type="tel" name="utel" class="form-control" id="otel"
+                                    placeholder="" value="<%= detils.utel %>" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="uaddress">常用地址</label>
+                            <input type="text" name="uaddress" class="form-control" id="uaddress" placeholder=""
+                                value="<%= detils.uaddress %>">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="otel">email</label>
+                            <input type="email" name="uemail" class="form-control" id="oemail" placeholder=""
+                                value="<%= detils.uemail %>">
+                        </div>
+                        <div class="mb-3">
+                            <label for="opwd">重置密码</label>
+                            <input type="password" name="upwd" class="form-control" id="opwd" placeholder="" value="">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="udate">注册时间</label>
+                            <input type="tel" name="udate" readonly class="form-control" id="udate" placeholder=""
+                                value="<%= detils.udate %>">
+                        </div>
+                        <hr class="mb-4">
+                        <button class="btn btn-primary btn-lg btn-block" type="submit">更新个人信息</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include("../partials/_footer.html")  %>
+    </div>
+    <script src="/public/js/vue<%= isProd?'.min':'' %>.js"></script>
+    <script>
+        new Vue({
+            el: "#app",
+            created() {
+                this.path = window.location.pathname;
+            },
+            data() {
+                return {
+                    alertStyle: "alert-success",
+                    alertShow: "success",
+                    fileName: "选择头像",
+                }
+            },
+            methods: {
+                hideAlert() {
+                    this.alertShow = false
+                },
+                setFile() {
+                    var file = document.getElementById("inputGroupFile01").files;
+                    if (file[0]) {
+                        this.fileName = file[0].name;
+                        var reader = new FileReader();
+                        reader.readAsDataURL(file[0]);
+                        reader.onload = function (e) {
+                            document.getElementById("uavatar").value = e.target.result;
+                        };
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

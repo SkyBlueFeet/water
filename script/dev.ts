@@ -5,7 +5,7 @@ import setRender from "../frame/render";
 import follow from "./follow";
 import app from "./app";
 
-app.use("/app", setRouter(setRender(app)));
+// app.use("/app", setRouter(setRender(app)));
 
 follow(app);
 

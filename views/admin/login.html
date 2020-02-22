@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v3.8.6">
+    <title>后台登录 | <%= title %></title>
+
+    <link rel="canonical" href="https://v4.bootcss.com/docs/examples/floating-labels/">
+
+    <%- include("../partials/public.css.html") %>
+    <%- include("../partials/_meta.html") %>
+
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-align: center;
+            align-items: center;
+            padding-top: 40px;
+            padding-bottom: 40px;
+            background-color: #f5f5f5;
+        }
+
+        .form-signin {
+            width: 100%;
+            max-width: 420px;
+            padding: 15px;
+            margin: auto;
+        }
+
+        .form-label-group {
+            position: relative;
+            margin-bottom: 1rem;
+        }
+
+        .form-label-group>input,
+        .form-label-group>label {
+            height: 3.125rem;
+            padding: .75rem;
+        }
+
+        .form-label-group>label {
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: block;
+            width: 100%;
+            margin-bottom: 0;
+            /* Override default `<label>` margin */
+            line-height: 1.5;
+            color: #495057;
+            pointer-events: none;
+            cursor: text;
+            /* Match the input under the label */
+            border: 1px solid transparent;
+            border-radius: .25rem;
+            transition: all .1s ease-in-out;
+        }
+
+        .form-label-group input::-webkit-input-placeholder {
+            color: transparent;
+        }
+
+        .form-label-group input:-ms-input-placeholder {
+            color: transparent;
+        }
+
+        .form-label-group input::-ms-input-placeholder {
+            color: transparent;
+        }
+
+        .form-label-group input::-moz-placeholder {
+            color: transparent;
+        }
+
+        .form-label-group input::placeholder {
+            color: transparent;
+        }
+
+        .form-label-group input:not(:placeholder-shown) {
+            padding-top: 1.25rem;
+            padding-bottom: .25rem;
+        }
+
+        .form-label-group input:not(:placeholder-shown)~label {
+            padding-top: .25rem;
+            padding-bottom: .25rem;
+            font-size: 12px;
+            color: #777;
+        }
+
+        /* Fallback for Edge-------------------------------------------------- */
+        @supports (-ms-ime-align: auto) {
+            .form-label-group>label {
+                display: none;
+            }
+
+            .form-label-group input::-ms-input-placeholder {
+                color: #777;
+            }
+        }
+
+        /* Fallback for IE-------------------------------------------------- */
+        @media all and (-ms-high-contrast: none),
+        (-ms-high-contrast: active) {
+            .form-label-group>label {
+                display: none;
+            }
+
+            .form-label-group input:-ms-input-placeholder {
+                color: #777;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <% let isReset= data.type==="reset" %>
+
+
+    <% let action=isReset?"/admin/reset":"/admin/login" %>
+    <form id="admin" class="form-signin" action="<%= action %>" method="POST">
+        <div class="text-center mb-4">
+            <img class="mb-4" src="/public/images/logo-120.png" alt="" width="72" height="72">
+            <h1 class="h3 mb-3 font-weight-normal">后台登录</h1>
+            <p>××××企业××××管理平台</p>
+        </div>
+        <% if (data.updatePwd) { %>
+        <div class="alert alert-success d-flex justify-content-between" role="alert">
+            <strong>重置成功!</strong> <a href="/admin/login">点击登录</a>
+        </div>
+        <% } %>
+        <% if (data.failure) { %>
+        <div class="alert alert-danger fade show" role="alert">
+            <strong>没有该手机号！</strong> 请检查是否输入错误
+        </div>
+        <% } %>
+
+        <% if (data.pwdError) { %>
+        <div class="alert alert-danger fade show " role="alert">
+            <strong>登录失败</strong> 请检查是否输入错误
+        </div>
+        <% } %>
+        <div class="form-label-group">
+            <input name="uaccount" pattern=".{8,13}" type="tel" id="inputTel" class="form-control" placeholder=""
+                required autofocus>
+            <label for="inputTel">输入手机号</label>
+        </div>
+
+        <div class="form-label-group">
+            <input name="upwd" type="password" id="inputPassword" class="form-control" placeholder="" required>
+            <label for="inputPassword"><%= isReset?"输入新密码":"密码" %></label>
+        </div>
+
+        <div class="d-block my-3 d-flex justify-content-around">
+            <div class="custom-control custom-radio">
+                <input id="credit" value="MEMBER" name="uidentity" type="radio" class="custom-control-input" checked
+                    required>
+                <label class="custom-control-label" for="credit">员工</label>
+            </div>
+            <div class="custom-control custom-radio">
+                <input value="ADMIN" id="debit" name="uidentity" type="radio" class="custom-control-input" required>
+                <label class="custom-control-label" for="debit">管理人员</label>
+            </div>
+        </div>
+
+        <button class="btn btn-lg btn-primary btn-block"><%=isReset?"重置密码":"登录" %></button>
+        <div class="d-flex flex-row justify-content-end">
+            <label class="mt-4 mb-2 text-muted text-right">
+                <% if (isReset) { %>
+                <a href="/admin/login">登录 &raquo;</a>
+                <% }else{ %>
+                <a href="/admin/reset">找回密码 &raquo;</a>
+                <% } %>
+            </label>
+        </div>
+        <p class="mt-5 mb-3 text-muted text-center">&copy; 2016-2020</p>
+    </form>
+    <!-- <script src="/public/js/vue<%= isProd?'.min':'' %>.js"></script>
+    <script>
+
+    </script> -->
+</body>
+
+</html>

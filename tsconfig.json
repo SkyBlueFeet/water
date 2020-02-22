@@ -32,7 +32,9 @@
         "mysql",
         "public",
         "handler/create.sql.ts",
-        "handler/query.ts"
+        "handler/query.ts",
+        "public/js/modal.min.js",
+        "public/js/util.min.js"
     ],
     "exclude": ["node_modules", "dist", ".*"]
 }

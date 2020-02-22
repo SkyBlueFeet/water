@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicons -->
+    <%- include("../partials/_meta.html") %>
+    <title>业务处理 | <%= title %></title>
+    <!-- Bootstrap core CSS -->
+    <%- include("../partials/public.css.html")  %>
+
+
+
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+
+        html {
+            font-size: 14px;
+        }
+
+        @media (min-width: 768px) {
+            html {
+                font-size: 16px;
+            }
+        }
+
+        .container {
+            /* max-width: 960px; */
+        }
+
+        .pricing-header {
+            max-width: 700px;
+        }
+
+        .card-deck .card {
+            min-width: 220px;
+        }
+
+        @media(min-width: 923px) {
+            body {
+                padding-top: 5rem;
+            }
+        }
+
+        .order {
+            min-height: calc(100vh - 20rem);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <%- include("../partials/_header.html") %>
+        <div class="container order">
+            <div class="row">
+                <% if (data.modify==="success") { %>
+                <div v-show="showAlert" class="col-12 col-md-12">
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>提交成功</strong>
+                        <button @click="showAlert=!showAlert" type="button" class="close" data-dismiss="alert"
+                            aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </div>
+                <% }else if(data.modify==="failure") {%>
+                <div v-show="showAlert" class="col-12 col-md-12">
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>提交失败！</strong>该订单已被处理
+                        <button @click="showAlert=!showAlert" type="button" class="close" data-dismiss="alert"
+                            aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </div>
+                <% } %>
+                <div class="col-md-4 order-2 order-md-1 mb-4">
+                    <%- include("./_cart.html")  %>
+                </div>
+                <div class="col-md-8 order-5 order-md-3">
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">订单编号</th>
+                                <th scope="col">创建日期</th>
+                                <th scope="col">送达地址</th>
+                                <th scope="col">状态</th>
+                                <th scope="col">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% data.table.forEach(e => { %>
+                            <tr>
+                                <th scope="row"><%= e.oid %></th>
+                                <td><%= e.odate %></td>
+                                <td><%= e.olocation %></td>
+                                <td><%= e.ostatus %></td>
+                                <% if (data.type==="MISSED") { %>
+                                <td><a href="/admin/order/<%= e.oid %>?status=FINISHING">接单</a></td>
+                                <% }else if(data.type==="FINISHING"){ %>
+                                <td><a href="/admin/order/<%= e.oid %>?status=COMPLETED">完成</a></td>
+                                <% } %>
+                            </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include("../partials/_footer.html")  %>
+    </div>
+    <script src="/public/js/vue<%= isProd?'.min':'' %>.js"></script>
+    <script>
+        new Vue({
+            el: "#app",
+            created() {
+                var path = window.location.pathname.split('/');
+                path[path.length - 1] ? void (0) : path.pop();
+                this.path = path.join("/");
+            },
+            data() {
+                return {
+                    alertStyle: "alert-success",
+                    showAlert: "<%=data.modify%>" !== "",
+                    path: "",
+                    status: "<%= data.type %>"
+                }
+            },
+            methods: {
+                hideAlert() {
+
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

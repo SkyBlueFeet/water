@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>产品清单 | <%= title %></title>
+    <%- include("../partials/_meta.html")  %>
+    <link rel="canonical" href="https://v4.bootcss.com/docs/examples/album/">
+
+    <%- include("../partials/public.css.html")  %>
+
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+
+        .jumbotron {
+            padding-top: 3rem;
+            padding-bottom: 3rem;
+            margin-bottom: 0;
+            background-color: #fff;
+        }
+
+        @media (min-width: 768px) {
+            .jumbotron {
+                padding-top: 6rem;
+                padding-bottom: 6rem;
+            }
+        }
+
+        .jumbotron p:last-child {
+            margin-bottom: 0;
+        }
+
+        .jumbotron h1 {
+            font-weight: 300;
+        }
+
+        .jumbotron .container {
+            max-width: 40rem;
+        }
+
+        footer {
+            padding-top: 3rem;
+            padding-bottom: 3rem;
+        }
+
+        footer p {
+            margin-bottom: .25rem;
+        }
+
+        .product-head {
+            height: 3rem;
+            line-height: 3rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <%- include("../partials/_header.html")  %>
+
+        <main role="main">
+            <!-- 头部 -->
+            <section class="jumbotron text-center">
+                <div class="container">
+                    <h1>Album example</h1>
+                    <p class="lead text-muted">Something short and leading about the collection below—its contents, the
+                        creator, etc. Make it short and sweet, but not too short so folks don’t simply skip over it
+                        entirely.</p>
+                    <p>
+                        <a href="#" class="btn btn-primary my-2">Main call to action</a>
+                        <a href="#" class="btn btn-secondary my-2">Secondary action</a>
+                    </p>
+                </div>
+            </section>
+
+            <!-- 产品分类 -->
+            <div class="album py-5 bg-light">
+                <div class="container">
+                    <div class="row product-head">
+                        <div class="col-6 col-md-10">
+                            现有产品
+                        </div>
+                        <div class="col-6 col-md-2">
+                            <a href="/business/cart" class="btn btn-link ">
+                                前往购物车({{ cartNum }})
+                            </a>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <template v-for="(item,key) in productList">
+                            <div class="col-md-4" :index="key" :id="item.id">
+                                <div class="card mb-4 shadow-sm">
+                                    <img :src="item.banner" width="100%" height="225" />
+                                    <div class="card-body">
+                                        <h5 class="text-danger">￥{{item.price}}</h5>
+                                        <p class="card-text">{{item.description}}</p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <small class="text-info">规格: {{item.specification}}</small>
+                                            <div class="btn-group">
+                                                <button @click="addCart(item)" type="button"
+                                                    class="btn btn btn-outline-success">
+                                                    <i class="iconfont">&#xe61e; </i>
+                                                    添加到购物车
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <%- include("../partials/_footer.html")  %>
+    </div>
+    <script src="/public/js/vue<%= isProd?'.min':'' %>.js"></script>
+    <script>
+        var vm = new Vue({
+            el: "#app",
+            data() {
+                return {
+                    alertStyle: "alert-<%= data.status %>",
+                    alertShow: "<%= data.status %>" === "success",
+                    productStr: ('<%-data.list %>'),
+                    cartNum: 0,
+                    cartList: {},
+                    path: ""
+                }
+            },
+            created() {
+                var path = window.location.pathname.split('/');
+                path[path.length - 1] ? void (0) : path.pop();
+                this.path = path.join("/");
+                if (localStorage.getItem("cartList")) {
+                    var cartList = JSON.parse(localStorage.getItem("cartList"));
+                    var keys = Object.keys(cartList);
+                    for (var i = 0, len = keys.length; i < len; i++) {
+                        this.cartNum += cartList[keys[i]].num;
+                    }
+                    this.cartList = cartList;
+                }
+            },
+            methods: {
+                hideAlert() {
+                    this.alertShow = false
+                },
+                addCart(item) {
+                    if (this.cartList[item.pid]) {
+                        this.cartList[item.pid].num++
+                    } else {
+                        this.cartList[item.pid] = { num: 0, item: {} };
+                        this.cartList[item.pid].num = 1;
+                        this.cartList[item.pid].item = item;
+                    }
+                    window.localStorage.setItem("cartList", JSON.stringify(this.cartList));
+                    this.cartNum++;
+                }
+            },
+            computed: {
+                productList() {
+                    return JSON.parse(this.productStr)
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

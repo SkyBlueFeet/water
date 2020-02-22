@@ -1,6 +1,6 @@
 import path from "path";
 
-const setPath = (...url: string[]): string => {
+export const setPath = (...url: string[]): string => {
     return path.resolve(process.cwd(), ...(url ? url : []));
 };
 
@@ -35,6 +35,10 @@ const config = {
     },
 
     /**
+     * 网站标题
+     */
+    title: "饿了么",
+    /**
      * 网站图标文件，网页有图标时会被覆盖
      */
     favicon: setPath("public/images/logo.png"),
@@ -62,7 +66,22 @@ const config = {
     /**
      * blacklist
      */
-    blacklist: []
+    blacklist: [
+        "/business/buyVip",
+        "/business/booking",
+        "/business/cart",
+        "/business/order"
+    ],
+
+    whiteList: ["/"],
+
+    returnsList: ["/", "/business/buyVip"],
+
+    matchUrl: function(url: string): boolean {
+        const urls = url.split("/");
+        return urls.includes("user") && urls.includes("message");
+    },
+    superAdmin: ["root", "123456"]
 };
 
 export default config;

@@ -1,0 +1,8 @@
+<div class="list-group">
+    <a href="/user/<%= detils.uid %>/message"
+        class="list-group-item list-group-item-action <%= data.type==="message"?"active":"" %> ">
+        个人信息
+    </a>
+    <a href="/user/<%= detils.uid %>/order"
+        class="list-group-item list-group-item-action <%= data.type==='order'?'active':'' %>">我的订单</a>
+</div>

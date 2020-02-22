@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicons -->
+    <%- include("../partials/_meta.html") %>
+    <title>当前订单 | <%= title %></title>
+    <!-- Bootstrap core CSS -->
+    <%- include("../partials/public.css.html")  %>
+
+
+
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+
+        html {
+            font-size: 14px;
+        }
+
+        @media (min-width: 768px) {
+            html {
+                font-size: 16px;
+            }
+        }
+
+        .container {
+            max-width: 960px;
+        }
+
+        .pricing-header {
+            max-width: 700px;
+        }
+
+        .card-deck .card {
+            min-width: 220px;
+        }
+
+        @media(min-width: 923px) {
+            body {
+                padding-top: 9rem;
+            }
+        }
+
+        .order {
+            min-height: calc(100vh - 20rem);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <%- include("../partials/_header.html") %>
+        <div class="container order">
+            <div class="row">
+
+                <div class="col-md-4 order-2 order-md-1 mb-4">
+                    <h5>当前页面</h5>
+                    <%- include("../partials/_cart.html")  %>
+                </div>
+                <div class="col-md-8 order-5 order-md-3">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">订单编号</th>
+                                <th scope="col">创建日期</th>
+                                <th scope="col">状态</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% data.table.forEach(e => { %>
+                            <tr>
+                                <th scope="row"><%= e.oid %></th>
+                                <td><%= e.odate %></td>
+                                <td><%= e.ostatus %></td>
+                            </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include("../partials/_footer.html")  %>
+    </div>
+    <script src="/public/js/vue<%= isProd?'.min':'' %>.js"></script>
+    <script>
+        new Vue({
+            el: "#app",
+            data() {
+                return {
+                    alertStyle: "alert-success",
+                    alertShow: "success",
+                    path: window.location.pathname
+                }
+            },
+            methods: {
+                hideAlert() {
+                    this.alertShow = false
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

@@ -1,4 +1,5 @@
 import _ from "lodash";
+// import { User, Identity } from "../mysql/types";
 // import { user } from "../types";
 
 type Feilds<T> = {
@@ -20,7 +21,7 @@ function mapping<T>(condition: Feilds<T>, conn: ConnStr = "AND"): string {
 export function insert<T>(name: string, table: Feilds<T>): string {
     const interpolation = _(table)
         .values()
-        .map(v => `"${v}"`)
+        .map(v => `'${v}'`)
         .join(",");
     const fields = _(table)
         .keys()
@@ -73,6 +74,27 @@ export function deletes<T>(
     const position = mapping(condition, conn);
     return `DELETE FROM ${setName(name)} ${
         position ? `WHERE ${position} ` : ""
+    }`;
+}
+
+export function fuzzy<T>(
+    _name: string,
+    _key: string,
+    _searchFeilds: Array<keyof T>,
+    _selectFeilds?: Array<keyof T>,
+    _condition?: Feilds<T>,
+    conn = "AND"
+): string {
+    const range = "*" || _selectFeilds.join(",");
+    const condition = _(_condition)
+        .keys()
+        .map(i => ` ${i} = '${_condition[i]}'`)
+        .join(` ${conn} `);
+    const position = _searchFeilds
+        .map(i => `${i} like '%${_key}%' `)
+        .join(" OR ");
+    return `SELECT ${range} FROM ${setName(_name)} WHERE (${position}) ${
+        condition ? ` AND ${condition}` : ""
     }`;
 }
 

@@ -1,0 +1,42 @@
+<form class="form-signin pt-md-50" action="/user/register" method="POST">
+    <div class="text-center mb-4">
+        <img class="mb-4" src="/public/images/logo-384.png" alt="Logo" width="72" height="72">
+        <h1 class="h3 mb-3 font-weight-normal">用 户 注 册</h1>
+        <p>畅享便捷服务</p>
+    </div>
+
+    <!--注册失败时显示  -->
+    <div <%= data.repeatError?"":"hidden" %> class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>注册失败！</strong> 该账号已存在
+    </div>
+    <div class="form-label-group">
+        <input type="tel" pattern=".{11}" id="inputID" name="inputID" class="form-control" placeholder="Email address"
+            required autofocus>
+        <label for="inputID">请输入手机号</label>
+    </div>
+
+    <div class="form-label-group">
+        <input type="password" name="inputPwd" id="inputPwd" class="form-control" placeholder="Password" required>
+        <label for="inputPwd">请设置账号密码</label>
+    </div>
+
+    <div class="checkbox mb-3 d-flex justify-content-between flex-row-reverse">
+        <!-- <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="save-info">
+            <label class="custom-control-label unselect" for="save-info">记住密码</label>
+        </div> -->
+        <div class="custom-control custom-checkbox">
+            <input required type="checkbox" class="custom-control-input" id="agree-service" />
+            <label class="custom-control-label unselect" for="agree-service">同意
+                <a href="javascript:void(0)">渴了么服务条款</a>
+            </label>
+        </div>
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">注 册</button>
+    <div class="d-flex flex-row justify-content-between">
+        <label class="mt-4 mb-2 text-muted text-right">
+            <!-- 登录注册链接 -->
+            <a href="/user/login">已经注册?点击登录</a>
+        </label>
+    </div>
+</form>

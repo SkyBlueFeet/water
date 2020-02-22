@@ -4,24 +4,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Jekyll v3.8.6">
     <%- include("partials/_meta.html") %>
-    <title><%= title %></title>
+    <title><%= title %> | 创造美好生活</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="/public/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/public/css/basic.css" rel="stylesheet">
+    <%- include("partials/public.css.html")  %>
     <style>
-        body {
-            padding-top: 3.5rem;
-        }
-
-        .row {
-            text-align: center;
-        }
-
         .bd-placeholder-img {
             font-size: 1.125rem;
             text-anchor: middle;
@@ -42,6 +30,12 @@
         .featurette-divider {
             margin: 5rem 0;
             /* Space out the Bootstrap <hr> more */
+        }
+
+        @media(max-width:576px) {
+            main {
+                margin-left: 1rem;
+            }
         }
 
         @media (min-width: 40em) {
@@ -76,138 +70,186 @@
             margin-right: .75rem;
             margin-left: .75rem;
         }
+
+        .row {
+            text-align: center;
+        }
+
+        @media(min-width: 921px) {
+            .jumbotron {
+                min-height: 25rem;
+            }
+        }
+
+        @media(max-width: 576px) {
+            .jumbotron {
+                min-height: 15rem;
+            }
+        }
+
+        @media(max-width: 921px) and (min-width: 576px) {
+            .jumbotron {
+                min-height: 20rem;
+            }
+        }
     </style>
 </head>
 
 <body>
-    <%- include("partials/_header.html")  %>
-    <main role="main">
+    <div id="app">
+        <%- include("partials/_header.html")  %>
+        <main role="main">
 
-        <!-- Main jumbotron for a primary marketing message or call to action -->
-        <div class="jumbotron">
-            <div class="container">
+            <!-- Main jumbotron for a primary marketing message or call to action -->
+            <div class="jumbotron"
+                style="background-image: url(https://cn.bing.com/th?id=OHR.WanderingAlbatross_ZH-CN3609426361_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp);background-position: center;">
+                <!-- <div class="container" style="background-color: rgba(255,255,255,0.2);">
                 <h1 class="display-3">宅急送</h1>
                 <p>众志成城，抗击疫情，我们在行动！宅在家，地球不爆炸，我们不放假！</p>
-                <p><a class="btn btn-primary btn-lg" href="#" role="button">下订单 &raquo;</a></p>
+                <p><a class="btn btn-primary btn-lg" href="/business/product" role="button">浏览 &raquo;</a></p>
+            </div> -->
             </div>
-        </div>
 
-        <div class="container">
-            <!-- Three columns of text below the carousel -->
-            <div class="row">
-                <div class="col-lg-4">
-                    <svg class="bd-placeholder-img rounded-circle" width="140" height="140"
-                        xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false"
-                        role="img" aria-label="Placeholder: 140x140">
-                        <title>Placeholder</title>
-                        <rect width="100%" height="100%" fill="#777" />
-                        <text x="50%" y="50%" fill="#777" dy=".3em">140x140</text>
-                    </svg>
-                    <h2>热水</h2>
-                    <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh
-                        ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-                        Praesent commodo cursus magna.</p>
-                    <!-- <a><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p> -->
-                </div><!-- /.col-lg-4 -->
-                <div class="col-lg-4">
-                    <svg class="bd-placeholder-img rounded-circle" width="140" height="140"
-                        xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false"
-                        role="img" aria-label="Placeholder: 140x140">
-                        <title>Placeholder</title>
-                        <rect width="100%" height="100%" fill="#777" /><text x="50%" y="50%" fill="#777"
-                            dy=".3em">140x140</text>
-                    </svg>
-                    <h2>凉水</h2>
-                    <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.
-                        Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo,
-                        tortor mauris condimentum nibh.</p>
-                </div><!-- /.col-lg-4 -->
-                <div class="col-lg-4">
-                    <svg class="bd-placeholder-img rounded-circle" width="140" height="140"
-                        xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false"
-                        role="img" aria-label="Placeholder: 140x140">
-                        <title>Placeholder</title>
-                        <rect width="100%" height="100%" fill="#777" /><text x="50%" y="50%" fill="#777"
-                            dy=".3em">140x140</text>
-                    </svg>
-                    <h2>温水</h2>
-                    <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id
-                        ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris
-                        condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-                </div><!-- /.col-lg-4 -->
-            </div><!-- /.row -->
-            <hr class="featurette-divider">
-            <!-- Example row of columns -->
-            <div class="row">
-                <div class="row featurette">
-                    <div class="col-md-7">
-                        <h2 class="featurette-heading">First featurette heading. <span class="text-muted">It’ll blow
-                                your mind.</span></h2>
-                        <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta
-                            felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce
-                            dapibus, tellus ac cursus commodo.</p>
-                    </div>
-                    <div class="col-md-5">
-                        <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
-                            width="500" height="500" xmlns="http://www.w3.org/2000/svg"
-                            preserveAspectRatio="xMidYMid slice" focusable="false" role="img"
-                            aria-label="Placeholder: 500x500">
+            <div class="container">
+                <!-- Three columns of text below the carousel -->
+                <div class="row">
+                    <div class="col-lg-4">
+                        <svg class="bd-placeholder-img rounded-circle" width="140" height="140"
+                            xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false"
+                            role="img" aria-label="Placeholder: 140x140">
                             <title>Placeholder</title>
-                            <rect width="100%" height="100%" fill="#eee" /><text x="50%" y="50%" fill="#aaa"
-                                dy=".3em">500x500</text>
+                            <rect width="100%" height="100%" fill="#777" />
+                            <text x="50%" y="50%" fill="#777" dy=".3em">140x140</text>
                         </svg>
-                    </div>
-                </div>
-
+                        <h2>热水</h2>
+                        <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh
+                            ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
+                            Praesent commodo cursus magna.</p>
+                        <!-- <a><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p> -->
+                    </div><!-- /.col-lg-4 -->
+                    <div class="col-lg-4">
+                        <svg class="bd-placeholder-img rounded-circle" width="140" height="140"
+                            xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false"
+                            role="img" aria-label="Placeholder: 140x140">
+                            <title>Placeholder</title>
+                            <rect width="100%" height="100%" fill="#777" /><text x="50%" y="50%" fill="#777"
+                                dy=".3em">140x140</text>
+                        </svg>
+                        <h2>凉水</h2>
+                        <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec
+                            elit.
+                            Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo,
+                            tortor mauris condimentum nibh.</p>
+                    </div><!-- /.col-lg-4 -->
+                    <div class="col-lg-4">
+                        <svg class="bd-placeholder-img rounded-circle" width="140" height="140"
+                            xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false"
+                            role="img" aria-label="Placeholder: 140x140">
+                            <title>Placeholder</title>
+                            <rect width="100%" height="100%" fill="#777" /><text x="50%" y="50%" fill="#777"
+                                dy=".3em">140x140</text>
+                        </svg>
+                        <h2>温水</h2>
+                        <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum
+                            id
+                            ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris
+                            condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+                    </div><!-- /.col-lg-4 -->
+                </div><!-- /.row -->
                 <hr class="featurette-divider">
-
-                <div class="row featurette">
-                    <div class="col-md-7 order-md-2">
-                        <h2 class="featurette-heading">Oh yeah, it’s that good. <span class="text-muted">See for
-                                yourself.</span></h2>
-                        <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta
-                            felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce
-                            dapibus, tellus ac cursus commodo.</p>
+                <!-- Example row of columns -->
+                <div class="row">
+                    <div class="row featurette">
+                        <div class="col-md-7">
+                            <h2 class="featurette-heading">First featurette heading. <span class="text-muted">It’ll blow
+                                    your mind.</span></h2>
+                            <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula
+                                porta
+                                felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur.
+                                Fusce
+                                dapibus, tellus ac cursus commodo.</p>
+                        </div>
+                        <div class="col-md-5">
+                            <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
+                                width="500" height="500" xmlns="http://www.w3.org/2000/svg"
+                                preserveAspectRatio="xMidYMid slice" focusable="false" role="img"
+                                aria-label="Placeholder: 500x500">
+                                <title>Placeholder</title>
+                                <rect width="100%" height="100%" fill="#eee" /><text x="50%" y="50%" fill="#aaa"
+                                    dy=".3em">500x500</text>
+                            </svg>
+                        </div>
                     </div>
-                    <div class="col-md-5 order-md-1">
-                        <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
-                            width="500" height="500" xmlns="http://www.w3.org/2000/svg"
-                            preserveAspectRatio="xMidYMid slice" focusable="false" role="img"
-                            aria-label="Placeholder: 500x500">
-                            <title>Placeholder</title>
-                            <rect width="100%" height="100%" fill="#eee" /><text x="50%" y="50%" fill="#aaa"
-                                dy=".3em">500x500</text>
-                        </svg>
-                    </div>
-                </div>
 
-                <hr class="featurette-divider">
+                    <hr class="featurette-divider">
 
-                <div class="row featurette">
-                    <div class="col-md-7">
-                        <h2 class="featurette-heading">And lastly, this one. <span class="text-muted">Checkmate.</span>
-                        </h2>
-                        <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta
-                            felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce
-                            dapibus, tellus ac cursus commodo.</p>
+                    <div class="row featurette">
+                        <div class="col-md-7 order-md-2">
+                            <h2 class="featurette-heading">Oh yeah, it’s that good. <span class="text-muted">See for
+                                    yourself.</span></h2>
+                            <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula
+                                porta
+                                felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur.
+                                Fusce
+                                dapibus, tellus ac cursus commodo.</p>
+                        </div>
+                        <div class="col-md-5 order-md-1">
+                            <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
+                                width="500" height="500" xmlns="http://www.w3.org/2000/svg"
+                                preserveAspectRatio="xMidYMid slice" focusable="false" role="img"
+                                aria-label="Placeholder: 500x500">
+                                <title>Placeholder</title>
+                                <rect width="100%" height="100%" fill="#eee" /><text x="50%" y="50%" fill="#aaa"
+                                    dy=".3em">500x500</text>
+                            </svg>
+                        </div>
                     </div>
-                    <div class="col-md-5">
-                        <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
-                            width="500" height="500" xmlns="http://www.w3.org/2000/svg"
-                            preserveAspectRatio="xMidYMid slice" focusable="false" role="img"
-                            aria-label="Placeholder: 500x500">
-                            <title>Placeholder</title>
-                            <rect width="100%" height="100%" fill="#eee" /><text x="50%" y="50%" fill="#aaa"
-                                dy=".3em">500x500</text>
-                        </svg>
+
+                    <hr class="featurette-divider">
+
+                    <div class="row featurette">
+                        <div class="col-md-7">
+                            <h2 class="featurette-heading">And lastly, this one. <span
+                                    class="text-muted">Checkmate.</span>
+                            </h2>
+                            <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula
+                                porta
+                                felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur.
+                                Fusce
+                                dapibus, tellus ac cursus commodo.</p>
+                        </div>
+                        <div class="col-md-5">
+                            <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
+                                width="500" height="500" xmlns="http://www.w3.org/2000/svg"
+                                preserveAspectRatio="xMidYMid slice" focusable="false" role="img"
+                                aria-label="Placeholder: 500x500">
+                                <title>Placeholder</title>
+                                <rect width="100%" height="100%" fill="#eee" /><text x="50%" y="50%" fill="#aaa"
+                                    dy=".3em">500x500</text>
+                            </svg>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </main>
-    <!--  -->
-    <%- include("partials/_footer.html") %>
+        </main>
+        <!--  -->
+        <%- include("partials/_footer.html") %>
+    </div>
     <script src="/public/js/vue<%= isProd?'.min':'' %>.js">
+    </script>
+    <script>
+        var isLogin = "<%=IS_LOGIN %>"
+        new Vue({
+            el: "#app",
+            created() {
+                this.path = "/";
+            },
+            data() {
+                return {
+                    path: ""
+                }
+            }
+        })
     </script>
 </body>
 

@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <%- include("../partials/_meta.html") %>
+    <title>登录 | <%= title %></title>
+
+    <link rel="canonical" href="https://v4.bootcss.com/docs/examples/floating-labels/" />
+
+    <link href="/public/css/bootstrap/litera.min.css" rel="stylesheet" />
+
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+
+
+
+        body {
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-align: center;
+            align-items: center;
+        }
+
+        .form-signin {
+            width: 100%;
+            max-width: 420px;
+            padding: 15px;
+            margin: auto;
+        }
+
+        .form-label-group {
+            position: relative;
+            margin-bottom: 1rem;
+        }
+
+        .form-label-group>input,
+        .form-label-group>label {
+            height: 3.125rem;
+            padding: .75rem;
+        }
+
+        .form-label-group>label {
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: block;
+            width: 100%;
+            margin-bottom: 0;
+            /* Override default `<label>` margin */
+            line-height: 1.5;
+            color: #495057;
+            pointer-events: none;
+            cursor: text;
+            /* Match the input under the label */
+            border: 1px solid transparent;
+            border-radius: .25rem;
+            transition: all .1s ease-in-out;
+        }
+
+        .form-label-group input::-webkit-input-placeholder {
+            color: transparent;
+        }
+
+        .form-label-group input:-ms-input-placeholder {
+            color: transparent;
+        }
+
+        .form-label-group input::-ms-input-placeholder {
+            color: transparent;
+        }
+
+        .form-label-group input::-moz-placeholder {
+            color: transparent;
+        }
+
+        .form-label-group input::placeholder {
+            color: transparent;
+        }
+
+        .form-label-group input:not(:placeholder-shown) {
+            padding-top: 1.25rem;
+            padding-bottom: .25rem;
+        }
+
+        .form-label-group input:not(:placeholder-shown)~label {
+            padding-top: .25rem;
+            padding-bottom: .25rem;
+            font-size: 12px;
+            color: #777;
+        }
+
+        /* Fallback for Edge-------------------------------------------------- */
+        @supports (-ms-ime-align: auto) {
+            .form-label-group>label {
+                display: none;
+            }
+
+            .form-label-group input::-ms-input-placeholder {
+                color: #777;
+            }
+        }
+
+        /* Fallback for IE-------------------------------------------------- */
+        @media all and (-ms-high-contrast: none),
+        (-ms-high-contrast: active) {
+            .form-label-group>label {
+                display: none;
+            }
+
+            .form-label-group input:-ms-input-placeholder {
+                color: #777;
+            }
+        }
+
+        /* 处理屏幕变化与表单和图片的位置协调  */
+
+        main {
+            width: 100%;
+        }
+
+        main>.form-signin {
+            min-height: calc(100vh - 3rem);
+        }
+
+        .login-banner img {
+            width: 100%;
+        }
+
+        @media (max-width: 300px) {
+            body {
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+
+            body {
+                font-size: 0.9rem;
+            }
+
+            main .form-signin {
+                margin-top: 4rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .login-banner {
+                display: none;
+            }
+
+            main {
+                min-height: 100vh;
+            }
+        }
+
+        @media (max-width: 768px) and (min-width: 576px) {
+            main .form-signin {
+                margin-top: 6rem;
+            }
+        }
+
+        .custom-control.custom-checkbox {
+            line-height: 1.8rem;
+        }
+
+        form {
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+
+<body class="d-flex flex-column">
+    <div id="app">
+        <main class="container container-md w-100 mt-md-3" role="main">
+            <div class="row">
+                <div class="login-banner col-md-6">
+                    <img class="pt-md-5 mt-md-5" src="/public/images/login.jpeg" />
+                </div>
+                <div class="col-12 col-md-6">
+                    <% if (data.type==="login") { %>
+                    <%- include("../partials/login.form.html") %>
+                    <% } else if(data.type==="register") { %>
+                    <%- include("../partials/register.form.html") %>
+                    <% } else if(data.type==="reset") { %>
+                    <%- include("../partials/reset.form.html") %>
+                    <% }%>
+                </div>
+            </div>
+        </main>
+        <%- include("../partials/_footer.html")  %>
+    </div>
+
+    <script src="/public/js/vue<%= isProd?'.min':'' %>.js"></script>
+    <script>
+        var failure = "<%=data.failure %>" === "true";
+        new Vue({
+            el: "#app",
+            created() {
+
+            },
+            data() {
+                return {
+                    failure,
+                    alertStyle: failure ? "alert-warning" : "alert-success",
+                    alertShow: failure
+                }
+            },
+            methods: {
+                hideAlert() {
+                    this.alertShow = false
+                }
+            }
+
+        })
+    </script>
+</body>
+
+</html>

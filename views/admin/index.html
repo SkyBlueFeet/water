@@ -1,0 +1,545 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v3.8.6">
+    <title>后台管理 | <%= title %></title>
+
+    <link rel="canonical" href="https://v4.bootcss.com/docs/examples/dashboard/">
+
+    <%- include("../partials/_meta.html") %>
+    <%- include("../partials/public.css.html") %>
+
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+
+        body {
+            font-size: .875rem;
+            /* padding-top: .75rem; */
+        }
+
+        .feather {
+            width: 16px;
+            height: 16px;
+            vertical-align: text-bottom;
+        }
+
+        /** Sidebar */
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            /* Behind the navbar */
+            padding: 6rem 0 0;
+            /* Height of navbar */
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            /* padding-top: 6rem; */
+        }
+
+        .sidebar-sticky {
+            position: relative;
+            top: 0;
+            height: calc(100vh - 6rem);
+            padding-top: .5rem;
+            overflow-x: hidden;
+            overflow-y: auto;
+            /* Scrollable contents if viewport is shorter than content. */
+        }
+
+        @supports ((position: -webkit-sticky) or (position: sticky)) {
+            .sidebar-sticky {
+                position: -webkit-sticky;
+                position: sticky;
+            }
+        }
+
+        .sidebar .nav-link {
+            font-weight: 500;
+            color: #333;
+        }
+
+        .sidebar .nav-link .feather {
+            margin-right: 4px;
+            color: #999;
+        }
+
+        .sidebar .nav-link.active {
+            color: #007bff;
+        }
+
+        .sidebar .nav-link:hover .feather,
+        .sidebar .nav-link.active .feather {
+            color: inherit;
+        }
+
+        .sidebar-heading {
+            font-size: .75rem;
+            text-transform: uppercase;
+        }
+
+        /** Content */
+
+        [role="main"] {
+            padding-top: 133px;
+            /* Space for fixed navbar */
+        }
+
+        @media (min-width: 768px) {
+            [role="main"] {
+                padding-top: 48px;
+                /* Space for fixed navbar */
+            }
+        }
+
+        /* * Navbar */
+
+        .navbar-brand {
+            /* padding-top: .75rem;
+            padding-bottom: .75rem; */
+            font-size: 1rem;
+            /* background-color: rgba(0, 0, 0, .25); */
+            /* box-shadow: inset -1px 0 0 rgba(0, 0, 0, .25); */
+        }
+
+        .navbar .form-control {
+            padding: .75rem 1rem;
+            border-width: 0;
+            border-radius: 0;
+        }
+
+        .form-control-dark {
+            color: #fff;
+            background-color: rgba(255, 255, 255, .1);
+            border-color: rgba(255, 255, 255, .1);
+        }
+
+        .form-control-dark:focus {
+            border-color: transparent;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
+        }
+
+        .input-group-text {
+            padding: 0.38rem 0.8rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="admin">
+        <% if (data.uidentity=="product") { %>
+        <div class="modal fade" id="product-eidt" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">产品编辑</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="product" action="">
+                            <input name="pid" type="hidden" class="form-control" id="pid">
+                            <div class="input-group input-group-sm mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">产品名称</span>
+                                </div>
+                                <input name="title" type="text" class="form-control" id="title" required>
+                            </div>
+                            <div class="input-group input-group-sm mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">价格(￥)</span>
+                                </div>
+                                <input name="price" type="number" class="form-control" id="price" required>
+                            </div>
+                            <div class="input-group input-group-sm mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">库存</span>
+                                </div>
+                                <input name="stock" type="text" class="form-control" id="stock" required>
+                            </div>
+                            <div class="input-group input-group-sm mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">规格</span>
+                                </div>
+                                <input name="specification" type="text" class="form-control" id="specification"
+                                    required>
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputGroupFileAddon01">上传</span>
+                                </div>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="inputGroupFile01">
+                                    <label id="fileLabel" class="custom-file-label" for="inputGroupFile01">选择文件</label>
+                                </div>
+                            </div>
+                            <input name="banner" type="hidden" id="banner">
+                            <!-- <input type="file" id="inputGroupFile01"> -->
+                            <div class="form-group">
+                                <label for="description" class="col-form-label">产品描述</label>
+                                <textarea name="description" class="form-control" id="description" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="remark" class="col-form-label">产品备注</label>
+                                <textarea name="remark" class="form-control" id="remark"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                        <button id="submitProduct" type="button" class="btn btn-primary">提交</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% }else if(data.feild.includes(data.uidentity)) {%>
+        <div class="modal fade" id="user-eidt" tabindex="-1" role="dialog" aria-labelledby="userModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="userModalLabel">添加资料</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="user">
+                            <input name="uid" type="hidden" class="form-control" id="uid">
+                            <div class="input-group input-group-sm mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">姓名</span>
+                                </div>
+                                <input name="uname" type="text" class="form-control" id="uname" required>
+                            </div>
+                            <div class="input-group input-group-sm mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">手机号</span>
+                                </div>
+                                <input name="utel" type="tel" class="form-control" id="utel" required>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                        <button id="submitUser" type="button" class="btn btn-primary">提交</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% } %>
+        <%- include("../partials/_header.html") %>
+
+        <div class="container-fluid">
+            <div class="row">
+                <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                    <% if (data.isRoot) { %>
+                    <div class="sidebar-sticky">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link <%= data.uidentity==='ADMIN'?'active':'' %>" href="/admin/foo/ADMIN">
+                                    <span data-feather="home"></span>
+                                    管理员管理 <span class="sr-only">(current)</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <% }else{ %>
+                    <div class="sidebar-sticky">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link <%= data.uidentity==='MEMBER'?'active':'' %>"
+                                    href="/admin/foo/MEMBER">
+                                    <span data-feather="home"></span>
+                                    员工管理 <span class="sr-only">(current)</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link <%= data.uidentity==='USER'?'active':'' %>" href="/admin/foo/USER">
+                                    <span data-feather="file"></span>
+                                    用户管理
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link <%= data.uidentity==='product'?'active':'' %>"
+                                    href="/admin/foo/product">
+                                    <span data-feather="shopping-cart"></span>
+                                    产品管理
+                                </a>
+                            </li>
+                        </ul>
+
+                        <h6
+                            class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                            <span>记录查询</span>
+                            <a class="d-flex align-items-center text-muted" href="#" aria-label="Add a new report">
+                                <span data-feather="plus-circle"></span>
+                            </a>
+                        </h6>
+                        <ul class="nav flex-column mb-2">
+                            <li class="nav-item">
+                                <a class="nav-link <%= data.uidentity==='order'?'active':'' %>" href="/admin/foo/order">
+                                    <span data-feather="file-text"></span>
+                                    订单记录
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <% } %>
+                </nav>
+
+                <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                    <% if(data.success){ %>
+                    <div class="alert alert-success" role="alert">
+                        操作成功！
+                    </div>
+                    <%} %>
+                    <% if(data.failure){ %>
+                    <div class="alert alert-danger" role="alert">
+                        操作失败！
+                    </div>
+                    <%} %>
+                    <% if (data.feild.includes(data.uidentity)) { %>
+                    <% if (data.uidentity==="MEMBER") { %>
+                    <div class="d-flex justify-content-between mb-3">
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#user-eidt">添加员工</button>
+                        <form action="/admin/foo/MEMBER" method="GET">
+                            <input type="text" name="searchValue" class="form-control" placeholder="回车搜索"
+                                aria-label="Username" aria-describedby="basic-addon1">
+                        </form>
+                    </div>
+                    <% } else if (data.uidentity==="ADMIN") { %>
+                    <div class="d-flex justify-content-between mb-3">
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#user-eidt">添加管理员</button>
+                        <form action="/admin/foo/ADMIN" method="GET">
+                            <input type="text" name="searchValue" class="form-control" placeholder="回车搜索"
+                                aria-label="Username" aria-describedby="basic-addon1">
+                        </form>
+                    </div>
+                    <% }else if(data.uidentity==="USER"){ %>
+                    <div class="d-flex justify-content-end mb-3">
+                        <form action="/admin/foo/USER" method="GET">
+                            <input type="text" name="searchValue" class="form-control" placeholder="回车搜索"
+                                aria-label="Username" aria-describedby="basic-addon1">
+                        </form>
+                    </div>
+                    <% }else if(data.uidentity==="ADMIN"){ %>
+                    <div class="d-flex justify-content-between mb-3">
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#user-eidt">添加员工</button>
+                        <form action="/admin/foo/ADMIN" method="GET">
+                            <input type="text" name="searchValue" class="form-control" placeholder="回车搜索"
+                                aria-label="Username" aria-describedby="basic-addon1">
+                        </form>
+                    </div>
+                    <% } %>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-sm">
+                            <thead>
+                                <tr>
+                                    <th>姓名</th>
+                                    <th>账号</th>
+                                    <th>联系方式</th>
+                                    <th>加入日期</th>
+                                    <% if (data.uidentity==="MEMBER") { %>
+                                    <th>操作</th>
+                                    <% } %>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% data.table.forEach(element => { %>
+                                <tr>
+                                    <td><%= element.uname %></td>
+                                    <td><%= element.uaccount %></td>
+                                    <td><%= element.utel %></td>
+                                    <td><%= element.udate %></td>
+                                    <% if (data.uidentity==="MEMBER") { %>
+                                    <td><a
+                                            href="/admin/foo/<%= data.uidentity %>?operate=delete&uid=<%= element.uid %>">删除资料</a>
+                                    </td>
+                                    <% } %>
+                                </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                    <% }else if(data.uidentity=="product") {%>
+                    <div class="d-flex justify-content-between mb-3">
+                        <button id="add-product" class="btn btn-primary" data-toggle="modal"
+                            data-target="#product-eidt">添加产品</button>
+                        <form action="/admin/foo/product" method="GET">
+                            <input type="text" name="searchValue" class="form-control" placeholder="回车搜索"
+                                aria-label="Username" aria-describedby="basic-addon1">
+                        </form>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-striped table-sm">
+                            <thead>
+                                <tr class="product">
+                                    <th>产品名称</th>
+                                    <th>价格(￥)</th>
+                                    <th>存货</th>
+                                    <th>规格</th>
+                                    <th>销量</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% data.table.forEach(element => { %>
+                                <tr>
+                                    <td><%= element.title %></td>
+                                    <td><%= element.price %></td>
+                                    <td><%= element.stock %></td>
+                                    <td><%= element.specification %></td>
+                                    <td><%= element.stock %></td>
+                                    <td><a href="/admin/foo/product?pid=<%= element.pid %>&operate=delete">下架</a>
+                                        <a class="product-eidt" data-description="<%= element.description %>"
+                                            data-pid="<%= element.pid %>" href="javascript:void(0)" data-toggle="modal"
+                                            data-target="#product-eidt">修改</a>
+                                    </td>
+                                </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                    <% }else if(data.uidentity=="order") {%>
+                    <div class="d-flex justify-content-end mb-3">
+                        <form action="/admin/foo/order" method="GET">
+                            <input type="text" name="searchValue" class="form-control" placeholder="回车搜索"
+                                aria-label="Username" aria-describedby="basic-addon1">
+                        </form>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-sm">
+                            <thead>
+                                <tr>
+                                    <th>订单编号</th>
+                                    <th>创建日期</th>
+                                    <th>处理状态</th>
+                                    <th>创建用户</th>
+                                    <th>处理人</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% data.table.forEach(element => { %>
+                                <tr class="order">
+                                    <td><%= element.oid %></td>
+                                    <td><%= element.odate %></td>
+                                    <td><%= element.ostatus %></td>
+                                    <td>
+                                        <a
+                                            href="/admin/foo/order/detail?uid=<%= element.uid %>"><%= element.username %></a>
+                                    </td>
+                                    <td>
+                                        <a
+                                            href="/admin/foo/order/detail?uid=<%= element.mid %>"><%= element.membername %></a>
+                                    </td>
+                                </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                    <% } %>
+            </div>
+            </main>
+        </div>
+    </div>
+    </div>
+    <script src="/public/js/jquery.min.js"></script>
+    <script src="/public/js/util.min.js"></script>
+    <script src="/public/js/modal.min.js"></script>
+    <script>
+        $("#thisNav").addClass("active");
+    </script>
+    <% if (data.feild.includes(data.uidentity)) { %>
+    <script>
+        $("#submitUser").click(function (event) {
+            var form = document.forms[0]
+            if (form.reportValidity()) {
+                form.method = "POST";
+                form.action = "/admin/foo/<%=data.uidentity %>?operate=add";
+                form.submit();
+            }
+        });
+    </script>
+    <% } %>
+    <% if (data.uidentity=="product") { %>
+    <script>
+        /**
+         * @renfance https://blog.csdn.net/A156348933/article/details/79107599
+         *javascript 文件转base64
+         *obj <input type='file'>
+         *fnc 回调函数
+         */
+        function getFileBase64(obj, fnc) {
+            var reader = new FileReader();
+            reader.readAsDataURL(obj.files[0]);
+            reader.onload = function (e) {
+                //console.log(e.target.result);
+                if (typeof fnc === "function") {
+                    fnc(e.target.result)
+                }
+            };
+        }
+        $(".product-eidt").click(function (event) {
+            $("#exampleModalLabel").text("编辑产品");
+            var tr = $(this).parents("tr").children();
+            $("#title").val(tr.eq(0).text())
+            $("#price").val(tr.eq(1).text())
+            $("#stock").val(tr.eq(2).text())
+            $("#specification").val(tr.eq(3).text())
+            $("#description").val($(this).attr("data-description"))
+            $("#pid").val($(this).attr("data-pid"))
+        })
+        $("#add-product").click(function (event) {
+            $("#exampleModalLabel").text("新增产品");
+            document.forms[0].reset();
+        })
+        $("#submitProduct").click(function () {
+            var form = document.forms[0];
+            if ($("#exampleModalLabel").text() === "编辑产品" && form.reportValidity()) {
+                form.action = "/admin/foo/product?pid=" + $("#pid").val() + "&operate=edit"
+                form.method = "POST";
+                form.submit();
+            } else if ($("#exampleModalLabel").text() === "新增产品" && form.reportValidity()) {
+                form.action = "/admin/foo/product?operate=add"
+                form.method = "POST";
+                form.submit();
+            }
+        });
+        $("#inputGroupFile01").change(function (event) {
+            $("#fileLabel").text(this.files[0].name);
+            if (this.files[0]) {
+                var reader = new FileReader();
+                reader.readAsDataURL(this.files[0]);
+                reader.onload = function (e) {
+                    $("#banner").val(e.target.result);
+                };
+            }
+        })
+    </script>
+    <% } %>
+</body>
+
+</html>

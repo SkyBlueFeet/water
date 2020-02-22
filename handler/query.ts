@@ -1,36 +1,42 @@
 import mysql, { PoolConnection } from "mysql";
 import databaseConfig from "../mysql/db.config";
 
+export type OperateResult = {
+    fieldCount: number;
+    affectedRows: number;
+    insertId: number;
+    serverStatus: number;
+    warningCount: number;
+    message: string;
+    protocol41: boolean;
+    changedRows: number;
+};
+
+export type queryType = "QUERY" | "OPERATE";
+
 export type QueryResult<T> = {
-    results: T[];
+    results: T;
     fields: mysql.FieldInfo[];
 };
 
-const pool = mysql.createPool(databaseConfig);
+let pool = mysql.createPool(databaseConfig);
 
-export function simpleQuery<T>(sql: string): Promise<QueryResult<T>> {
-    return new Promise<QueryResult<T>>((resolve, reject) => {
-        pool.getConnection(function(err, conn) {
-            if (err) reject(err);
-            conn.query(sql, function(err, results, fields) {
-                if (err) reject(err);
-                resolve({
-                    results,
-                    fields
-                });
-                conn.release(); // 释放链接
-            });
-        });
-    });
-}
-
+/**
+ * @description 从连接池获取连接，如果连接池对象被释放，则重新创建
+ */
 export function getConn(): Promise<PoolConnection> {
+    if (!pool) pool = mysql.createPool(databaseConfig);
+
     return new Promise((resolve, reject) => {
         pool.getConnection(function(err, conn) {
             if (err) reject(err);
             resolve(conn);
         });
     });
+}
+
+export function releaseConn(conn: PoolConnection): void {
+    conn.end();
 }
 
 export function query<T>(
@@ -49,6 +55,17 @@ export function query<T>(
     });
 }
 
-export function releaseConn(conn: PoolConnection): void {
-    conn.end();
+export default function simpleQuery<T>(
+    sql: string,
+    queryType?: "QUERY"
+): Promise<QueryResult<T[]>>;
+export default function simpleQuery<T>(
+    sql: string,
+    queryType: "OPERATE"
+): Promise<QueryResult<OperateResult>>;
+export default async function simpleQuery<T>(
+    sql: string
+): Promise<QueryResult<OperateResult | T[]>> {
+    //从连接池获取连接
+    return query(await getConn(), sql);
 }

@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md navbar-light fixed-top bg-light">
+<nav class="navbar navbar-expand-md navbar-light fixed-top bg-light shadow-sm">
     <!-- <a class="navbar-brand" href="#">Navbar</a> -->
     <!-- 移动适配菜单展开按钮 -->
     <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
@@ -6,15 +6,38 @@
         <span class="navbar-toggler-icon"></span>
     </button> -->
     <div class="container">
-        <nav class="navbar navbar-light w-100 d-flex flex-row">
+        <nav class="navbar navbar-light w-100 d-flex flex-column flex-md-row">
             <a class="navbar-brand" href="/">
                 <img src="/public/images/logo-384.png" width="30" height="30" class="d-inline-block align-top"
                     alt="Logo">
-                渴了么
+                <%= title%>
             </a>
+            <nav class="my-2 my-md-0 mr-md-3">
+                <a class="custom-link p-2 text-decoration-none" :class="{active: '/'===path}" href="/">首页</a>
+                <a class="custom-link p-2 text-decoration-none" :class="{active: '/business/product'===path}"
+                    href="/business/product">产品清单</a>
+                <% if (IS_LOGIN&&detils.uidentity=="MEMBER") { %>
+                <a class="custom-link p-2 text-decoration-none" :class="{active: '/admin/handler'===path}"
+                    href="/admin/handler?type=FINISHING">业务处理</a>
+                <% } else if(IS_LOGIN&&detils.uidentity=="ADMIN"){ %>
+                <a id="thisNav" class="custom-link p-2 text-decoration-none" :class="{active: '/admin/foo'===path}"
+                    href="/admin/foo/MEMBER">资源管理</a>
+                <% } else if(IS_LOGIN&&detils.uidentity=="ROOT"){ %>
+                <a id="thisNav" class="custom-link p-2 text-decoration-none" :class="{active: '/admin/foo'===path}"
+                    href="/admin/foo/ADMIN">资源管理</a>
+                <% }%>
+            </nav>
             <form class="form-inline">
+                <% if(IS_LOGIN){ %>
+                <img src="<%= detils.uavatar||"/public/images/logo-384.png" %>" width="30" height="30"
+                    class="d-inline-block align-top" alt="Kitten">
+                <a class="btn btn-link active" type="button"
+                    href="/user/<%= detils.uid %>/message/"><%= detils.uname || detils.uid %></a>
+                <a class="btn btn-link" href="/user/logout"> 注 销 </a>
+                <% } else{ %>
                 <a class="btn btn-primary" href="/user/login"> 登 录 </a>
-                <button class="btn btn-outline-success my-2 my-sm-0 m-2" type="button"> 注 册 </button>
+                <a class="btn btn-outline-success my-2 my-sm-0 m-2" href="/user/register"> 注 册 </a>
+                <% } %>
             </form>
         </nav>
     </div>

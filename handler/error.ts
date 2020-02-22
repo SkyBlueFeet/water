@@ -1,7 +1,7 @@
 import createError from "http-errors";
 import { Response, NextFunction, Request } from "express";
-
 import { QueryResult } from "./query";
+import _ from "lodash";
 
 // 404
 export function pageNotFound(
@@ -9,15 +9,18 @@ export function pageNotFound(
     res: Response,
     next: NextFunction
 ): void {
-    next(createError(404));
+    if (req.url !== "/service-worker.js") {
+        console.log(req.url);
+        next(createError(404));
+    }
 }
 
 // 500
 export function serverError(
     err: Error,
     req: Request,
-    res: Response,
-    next: NextFunction
+    res: Response
+    // next: NextFunction
 ): void {
     // set locals, only providing error in development
     res.locals.message = err.message;
@@ -44,15 +47,41 @@ export function createEjsError(
     };
 }
 
+type queryCallbackFn<T> = (result?: QueryResult<T>) => Promise<any> | any;
 // 数据库查询错误处理
 export async function handleQuery<T>(
-    queryResult: Promise<QueryResult<T>>,
     next: NextFunction,
-    callbackFn: (result: QueryResult<T>) => void
-): Promise<void> {
+    queryResult: Promise<QueryResult<T>>
+): Promise<QueryResult<T>>;
+export async function handleQuery<T>(
+    next: NextFunction,
+    queryResult: Promise<QueryResult<T[]>>
+): Promise<QueryResult<T[]>>;
+export async function handleQuery<T>(
+    next: NextFunction,
+    callbackFn: queryCallbackFn<T>
+): Promise<any>;
+export async function handleQuery<T>(
+    next: NextFunction,
+    queryResult: Promise<QueryResult<T>>,
+    callbackFn: queryCallbackFn<T>
+): Promise<any>;
+export async function handleQuery<T>(
+    next: NextFunction,
+    arg2: Promise<QueryResult<T>> | queryCallbackFn<T>,
+    callbackFn?: queryCallbackFn<T>
+): Promise<any> {
     try {
-        callbackFn(await queryResult);
+        if (typeof arg2 == "object" && _.isFunction(callbackFn)) {
+            return callbackFn(await arg2);
+        } else if (typeof arg2 === "object" && !_.isFunction(callbackFn)) {
+            const queryResult = await arg2;
+            return queryResult;
+        } else if (_.isFunction(arg2)) {
+            return await arg2();
+        }
     } catch (error) {
+        console.log(123);
         if (error) {
             next(error);
         }

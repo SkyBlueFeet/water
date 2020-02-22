@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>编辑订单 | <%= title %></title>
+    <!-- Bootstrap core CSS -->
+    <%- include("../partials/public.css.html")  %>
+
+    <!-- Favicons -->
+    <%- include("../partials/_meta.html") %>
+
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+
+        html {
+            font-size: 14px;
+        }
+
+        @media (min-width: 768px) {
+            html {
+                font-size: 16px;
+            }
+        }
+
+        .container {
+            max-width: 960px;
+        }
+
+        .pricing-header {
+            max-width: 700px;
+        }
+
+        .card-deck .card {
+            min-width: 220px;
+        }
+
+
+        .cart-pay__loading {
+            height: 100vh;
+            width: 100vw;
+            position: fixed;
+            z-index: 100;
+            background-color: rgba(255, 255, 255, 0.7);
+            margin-top: 5rem;
+        }
+
+        .cart-pay__container {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <%- include("../partials/_header.html") %>
+        <div class="cart-pay__loading" v-show="isLoading">
+            <div class="cart-pay__container">
+                <div class="spinner-border text-success" role="status">
+                    <span class="sr-only">正在进行安全检查，请稍后。。。</span>
+                </div>
+                <label class="text-secondary" v-show="isJiancha">正在进行安全检查，请稍后。。。</label>
+                <label class="text-info" v-show="isSubmit ">检查成功！开始提交。。。</label>
+                <label class="text-success" v-show="isSuccess">支付成功！</label>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 order-3 order-md-2 mb-4">
+                    <h4 class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="text-muted">订单信息</span>
+                        <span class="badge badge-success badge-pill">{{Object.keys(this.cartList).length}}</span>
+                    </h4>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item d-flex justify-content-between lh-condensed">
+                            <div>
+                                <h6 class="my-0"><%= name %> </h6>
+                                <small class="text-muted">收件人</small>
+                            </div>
+                            <span class="text-muted"></span>
+                        </li>
+                        <template v-for="(goods,index) in cartList">
+                            <li class="list-group-item d-flex justify-content-between lh-condensed">
+                                <div>
+                                    <h6 class="my-0">{{goods.item.title}}</h6>
+                                    <small class="text-muted">{{goods.num}}件</small>
+                                    <small class="text-muted">{{goods.item.specification}}装</small>
+                                </div>
+                                <span class="text-muted">￥ {{goods.item.price}}</span>
+                            </li>
+                        </template>
+                        <li class="list-group-item d-flex justify-content-between bg-light">
+                            <div class="text-secondary">
+                                <h6 class="my-0">无</h6>
+                                <small>优惠券</small>
+                            </div>
+                            <span class="text-secondary">- ￥ 0</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>总计 (元)</span>
+                            <strong>￥ {{getTotal(cartList)}}</strong>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-8 order-5 order-md-1">
+                    <h4 class="mb-3">个人信息</h4>
+                    <form class="needs-validation" action="/business/order" method="POST">
+                        <div class="mb-3">
+                            <label for="otel">联系方式</label>
+                            <input type="tel" name="otel" class="form-control" id="otel" placeholder=""
+                                value="<%= detils.utel %>" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="olocation">地址</label>
+                            <input name="olocation" type="text" class="form-control" id="olocation" placeholder=""
+                                value="<%= detils.uaddress %>" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="oremark">备注信息</label>
+                            <input type="tel" name="oremark" class="form-control" id="oremark" placeholder="" value="">
+                        </div>
+                        <input type="hidden" name="omessage" class="form-control" id="omessage" placeholder=""
+                            :value="JSON.stringify(cartList)">
+                        <div class="d-flex justify-content-around">
+                            <div class="custom-control custom-radio">
+                                <input id="credit" name="paymentMethod" type="radio" class="custom-control-input"
+                                    checked required>
+                                <label class="custom-control-label" for="credit">支付宝</label>
+                            </div>
+
+                            <div class="custom-control custom-radio">
+                                <input id="debit" name="paymentMethod" type="radio" class="custom-control-input"
+                                    required>
+                                <label class="custom-control-label" for="debit">微信</label>
+                            </div>
+                        </div>
+
+                        <hr class="mb-4">
+                        <button @click.prevent="submit" class="btn btn-success btn-lg btn-block" type="button">支付下单
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include("../partials/_footer.html")  %>
+    </div>
+    <script src="/public/js/vue<%= isProd?'.min':'' %>.js"></script>
+    <script>
+        var vm = new Vue({
+            el: "#app",
+            created() {
+                const cartList = JSON.parse(localStorage.getItem("cartList"));
+                if (!cartList) {
+                    alert("购物车已被清空！");
+                    window.history.back();
+                } else {
+                    this.cartList = cartList;
+                }
+            },
+            data() {
+                return {
+                    alertStyle: "alert-success",
+                    alertShow: "success",
+                    olocation: "<%= detils.uaddress %>",
+                    cartList: {},
+                    isLoading: false,
+                    isJiancha: false,
+                    isSubmit: false,
+                    isSuccess: false,
+                    path: window.location.pathname
+                }
+            },
+            mounted() {
+                // console.log(this.cartList);
+            },
+
+            methods: {
+                submit() {
+                    var form = document.forms[1];
+                    if (form.reportValidity()) {
+                        this.isLoading = true;
+                        var loading = setTimeout(function () {
+                            vm.isJiancha = true;
+                            loading = setTimeout(function () {
+                                vm.isJiancha = false;
+                                vm.isSubmit = true;
+                                loading = setTimeout(function () {
+                                    vm.isSubmit = false;
+                                    vm.isSuccess = true;
+                                    loading = setTimeout(function () {
+                                        vm.isLoading = false;
+                                        localStorage.clear();
+                                        form.submit()
+                                    }, 500)
+                                }, 1000)
+                            }, 2000)
+                        }, 500);
+                    }
+                },
+                hideAlert() {
+                    this.alertShow = false
+                },
+                getTotal(cartList) {
+                    var total;
+                    try {
+                        let _keys = Object.keys(cartList);
+                        if (_keys.length > 1) {
+                            var total = 0;
+                            for (var index = 0; index < _keys.length; index++) {
+                                var element = cartList[_keys[index]];
+                                total += Number(element.num) * Number(element.item.price)
+                            }
+                            return total;
+                        } else {
+                            total = cartList[_keys[0]].num * cartList[_keys[0]].item.price;
+                        }
+
+                    } catch (error) {
+                        total = 0;
+                    }
+                    return total;
+                },
+            }
+        })
+    </script>
+</body>
+
+</html>
