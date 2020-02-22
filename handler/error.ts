@@ -9,10 +9,7 @@ export function pageNotFound(
     res: Response,
     next: NextFunction
 ): void {
-    if (req.url !== "/service-worker.js") {
-        console.log(req.url);
-        next(createError(404));
-    }
+    res.render("404");
 }
 
 // 500
@@ -23,14 +20,18 @@ export function serverError(
     // next: NextFunction
 ): void {
     // set locals, only providing error in development
-    res.locals.message = err.message;
-    res.locals.error = req.app.get("env") === "development" ? err : {};
+    if (process.env.NODE_ENV === "development") {
+        res.locals.message = err.message;
+        res.locals.error = req.app.get("env") === "development" ? err : {};
 
-    // console.log(err);
+        // console.log(err);
 
-    // render the error page
-    res.status(err["status"] || 500);
-    res.render("error");
+        // render the error page
+        res.status(err["status"] || 500);
+        res.render("error");
+    }else{
+        res.render("500");
+    }
 }
 
 // 500

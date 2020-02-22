@@ -61,7 +61,7 @@ const config = {
     /**
      * 登录token公钥
      */
-    publicKey: setPath("handler/rsa_private_key.pem"),
+    publicKey: setPath("handler/rsa_public_key.pem"),
 
     /**
      * blacklist

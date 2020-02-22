@@ -170,6 +170,7 @@ admin.all("/foo/:uidentity", async (req, res, next) => {
                 "admin/index",
                 {
                     data: {
+                        searchValue,
                         feild: ["USER", "MEMBER", "ADMIN"],
                         uidentity,
                         operate,
@@ -253,6 +254,16 @@ admin.get("/foo/order/detail", async function(req, res, next) {
 //产品管理请求
 admin.all("/foo/product", async (req, res, next) => {
     const { operate, pid, searchValue, result } = req.query;
+    const {
+        price,
+        title,
+        description,
+        stock,
+        specification,
+        remark,
+        banner
+    } = req.body;
+    const image = await base64ToFile(banner);
     if (!operate && !pid && !searchValue) {
         const allProd = select<Product>("product");
         const $operate = await handleQuery<Product>(
@@ -292,6 +303,7 @@ admin.all("/foo/product", async (req, res, next) => {
             "admin/index",
             {
                 data: {
+                    searchValue,
                     feild: ["USER", "MEMBER", "ADMIN"],
                     uidentity: "product",
                     operate,
@@ -303,16 +315,6 @@ admin.all("/foo/product", async (req, res, next) => {
         );
     } else if (operate && pid) {
         let sql: string;
-        const {
-            price,
-            title,
-            description,
-            stock,
-            specification,
-            remark,
-            banner
-        } = req.body;
-        const image = await base64ToFile(banner);
         if (operate == "edit") {
             sql = update<Product>(
                 "product",
@@ -323,7 +325,7 @@ admin.all("/foo/product", async (req, res, next) => {
                     stock,
                     specification,
                     remark,
-                    banner: "/" + image
+                    banner: image
                 },
                 { pid }
             );
@@ -345,7 +347,8 @@ admin.all("/foo/product", async (req, res, next) => {
             description: req.body.description,
             stock: req.body.stock,
             specification: req.body.specification,
-            remark: req.body.remark
+            remark: req.body.remark,
+            banner: image
         });
         const $result = await handleQuery(next, query(sql, "OPERATE"));
         const url =
@@ -399,6 +402,7 @@ admin.get("/foo/order", async (req, res, next) => {
             "admin/index",
             {
                 data: {
+                    searchValue,
                     feild: ["USER", "MEMBER", "ADMIN"],
                     uidentity: "order",
                     search: searchValue,

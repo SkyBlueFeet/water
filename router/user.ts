@@ -189,7 +189,7 @@ user.post("/update", async (req, res, next) => {
             uname: uname,
             utel,
             uaddress,
-            uavatar: "/" + image
+            uavatar: image
         },
         {
             uid: res.locals.detils.uid

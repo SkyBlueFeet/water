@@ -373,7 +373,7 @@
                                     <td><%= element.uaccount %></td>
                                     <td><%= element.utel %></td>
                                     <td><%= element.udate %></td>
-                                    <% if (data.uidentity==="MEMBER") { %>
+                                    <% if (data.uidentity==="MEMBER"|| data.uidentity==="ADMIN") { %>
                                     <td><a
                                             href="/admin/foo/<%= data.uidentity %>?operate=delete&uid=<%= element.uid %>">删除资料</a>
                                     </td>

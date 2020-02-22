@@ -47,17 +47,18 @@ export async function base64ToFile(
     base64Url: string,
     dir = "banner"
 ): Promise<string> {
-    const imgPath = setPath(
-        `public/images/${dir}/${createUid(12) + Date.now()}.png`
-    );
+    if(!base64Url) return "";
+    const imageName=createUid(12) + Date.now()+".png";
+    const imgPath = setPath(`public/images/${dir}/${imageName}`);
+
     const base64 = base64Url.replace(/^data:image\/\w+;base64,/, ""); //去掉图片base64码前面部分data:image/png;base64
     const dataBuffer = Buffer.alloc(base64.length, base64, "base64"); //把base64码转成buffer对象，
-    const url = new Promise<string>((res, rej) => {
+    new Promise<string>((res, rej) => {
         fs.writeFile(imgPath, dataBuffer, function(err) {
             //用fs写入文件
             if (err) rej(err);
             else res(imgPath);
         });
     });
-    return path.relative(setPath(), await url);
+    return `/public/images/${dir}/${imageName}`;
 }
