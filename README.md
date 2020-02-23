@@ -2,10 +2,8 @@
 
 ## Description
 
-本项目是基于[vue-hackernews-2.0](https://github.com/vuejs/vue-hackernews-2.0)基础上的自定义修改。
+一个简单但功能完整的网站，极少使用 js，使用 Vue 直接写在 HTML 中，没有使用 ajax 和 axios，主要使用 form 提交，但是耗费服务器性能，包含安全隐患。
 
 ## feature
 
--   按功能分割原 server.js 代码
--   优化代码结构，模块化各个部分，增强代码灵活性和健壮性
--   部分配置使用 ts 重写，并使用 ts-node 运行
+-   ts 全栈
