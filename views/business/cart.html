@@ -21,6 +21,14 @@
             .input-position {
                 margin-top: 1.5rem;
             }
+
+            .select-position {
+                margin-top: 1.2rem
+            }
+        }
+
+        .shuioming {
+            margin: 1rem 0;
         }
 
         #app {
@@ -44,9 +52,9 @@
 </head>
 
 <body>
-
-    <%- include("../partials/_header.html")  %>
     <div id="app">
+        <%- include("../partials/_header.html")  %>
+
         <div class="cart-pay__loading" v-show="isLoading">
             <div class="cart-pay__container">
                 <div class="spinner-border text-success" role="status">
@@ -59,15 +67,23 @@
         </div>
         <div class="border-top container d-flex flex-column">
             <div v-show="total===0" class="row goods border text-center">
-                <span>购物车已被清空</span>
+                <p class="w-100">购物车空空如也！<a href="/business/product">浏览产品</a></p>
             </div>
             <template v-for="(goods,index) in cartList" v-if="goods!==undefined">
                 <div class="row goods border-bottom pt-md-3 pb-md-3" :index="index">
                     <div class="col-md-2">
                         <img src="/public/images/login.jpeg" height="75" width="75" />
                     </div>
-                    <div class="col-md-3"> {{ goods.item.title}} </div>
+                    <div class="col-md-2"> {{ goods.item.title}} </div>
                     <div class="col-md-1"> {{ goods.item.specification }} </div>
+                    <div class="col-md-2">
+                        <select @change="addType(goods,index)" <%= parseInt(detils.uvip,10)>0?"":"disabled" %>
+                            v-model="otype" name="otype" class="custom-select d-block w-80 select-position" id="otype"
+                            required>
+                            <option value="使用自有水壶">使用自有水壶</option>
+                            <option value="使用平台水壶">使用平台水壶</option>
+                        </select>
+                    </div>
                     <div class="col-md-1">￥ {{ goods.item.price }} </div>
                     <div class="col-md-1">
                         <input min="0" @change="test" class="form-control form-control-sm input-position" type="number"
@@ -88,9 +104,17 @@
                     总计 ￥ {{total}}
                 </div>
             </form>
+            <div class="shuioming">
+                <h4>订单说明</h4>
+                <p class="text-muted">1.您当前<%= parseInt(detils.uvip,10)>0?"已缴纳押金":"未缴纳押金" %>。</p>
+                <p>2.当您缴纳押金时，您可以自由选择使用自有水壶或平台水壶。</p>
+                <p>3.当您未缴纳押金时，您只能使用自有水壶。</p>
+                <p>4.您可以在<a href="/user/<%= detils.uid %>/message">个人信息页面</a>缴纳押金</p>
+            </div>
         </div>
+        <%- include("../partials/_footer.html")  %>
     </div>
-    <%- include("../partials/_footer.html")  %>
+
     <script src="/public/js/vue<%= isProd?'.min':'' %>.js"></script>
     <script>
         var vm = new Vue({
@@ -102,19 +126,34 @@
                     isLoading: false,
                     isJiancha: false,
                     isSubmit: false,
-                    isSuccess: false
+                    isSuccess: false,
+                    otype: '<%= parseInt(detils.uvip,10)>0?"使用平台水壶":"使用自有水壶" %>',
+                    path: ""
                 }
+            },
+            created() {
+                var path = window.location.pathname.split('/');
+                path[path.length - 1] ? void (0) : path.pop();
+                this.path = path.join("/");
             },
             mounted() {
                 var cartList = JSON.parse(window.localStorage.getItem("cartList") || "{}");
+                var list = Object.keys(cartList);
+                for (var i = 0, len = list.length; i < len; i++) {
+                    cartList[list[i]].item.otype = this.otype;
+                }
+                localStorage.setItem("cartList", JSON.stringify(cartList))
                 this.cartList = cartList;
                 this.total = this.getTotal(cartList);
-                console.log(this.getTotal(cartList));
             },
             computed: {
 
             },
             methods: {
+                addType(goods, index) {
+                    this.cartList[index].item.otype = this.otype;
+                    localStorage.setItem("cartList", JSON.stringify(this.cartList))
+                },
                 test() {
                     this.total = this.getTotal(this.cartList);
                 },
@@ -133,7 +172,7 @@
                             total = cartList[_keys[0]].num * cartList[_keys[0]].item.price;
                         }
                     } catch (error) {
-                        console.log(error)
+                        // console.log(error);
                         total = 0;
                     }
                     return total;

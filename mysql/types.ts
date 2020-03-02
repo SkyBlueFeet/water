@@ -12,8 +12,8 @@ export enum OrderStatus {
 }
 
 export enum OrderType {
-    FIRST = "一类订单",
-    SECOND = "二类订单"
+    FIRST = "使用自有水壶",
+    SECOND = "使用平台水壶"
 }
 
 export interface User {
@@ -41,6 +41,7 @@ export interface Order {
     oremark?: string;
     omessage: string;
     otel: string;
+    odelivery: string;
 }
 
 export interface Product {

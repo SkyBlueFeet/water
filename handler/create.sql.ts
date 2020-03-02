@@ -2,11 +2,11 @@ import _ from "lodash";
 // import { User, Identity } from "../mysql/types";
 // import { user } from "../types";
 
-type Feilds<T> = {
+export type Feilds<T> = {
     [key in keyof T]?: string;
 };
 
-type ConnStr = "AND" | "OR" | "," | "NOT";
+export type ConnStr = "AND" | "OR" | "," | "NOT";
 
 function setName(name: string): string {
     return "water.`" + name + "`";

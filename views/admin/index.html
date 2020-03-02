@@ -191,7 +191,8 @@
                                 </div>
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" id="inputGroupFile01">
-                                    <label id="fileLabel" class="custom-file-label" for="inputGroupFile01">选择文件</label>
+                                    <label id="fileLabel" class="custom-file-label"
+                                        for="inputGroupFile01">选择产品Banner</label>
                                 </div>
                             </div>
                             <input name="banner" type="hidden" id="banner">
@@ -240,6 +241,7 @@
                                 <input name="utel" type="tel" class="form-control" id="utel" required>
                             </div>
                         </form>
+                        <div class="alert alert-info" role="alert"> 账号默认密码为 <strong>123456</strong> </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
@@ -373,7 +375,7 @@
                                     <td><%= element.uaccount %></td>
                                     <td><%= element.utel %></td>
                                     <td><%= element.udate %></td>
-                                    <% if (data.uidentity==="MEMBER") { %>
+                                    <% if (data.uidentity==="MEMBER"|| data.uidentity==="ADMIN") { %>
                                     <td><a
                                             href="/admin/foo/<%= data.uidentity %>?operate=delete&uid=<%= element.uid %>">删除资料</a>
                                     </td>

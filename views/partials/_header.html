@@ -16,6 +16,10 @@
                 <a class="custom-link p-2 text-decoration-none" :class="{active: '/'===path}" href="/">首页</a>
                 <a class="custom-link p-2 text-decoration-none" :class="{active: '/business/product'===path}"
                     href="/business/product">产品清单</a>
+                <% if (IS_LOGIN) { %>
+                <a class="custom-link p-2 text-decoration-none" :class="{active: '/business/cart'==path}"
+                    href="/business/cart">购物车</a>
+                <% } %>
                 <% if (IS_LOGIN&&detils.uidentity=="MEMBER") { %>
                 <a class="custom-link p-2 text-decoration-none" :class="{active: '/admin/handler'===path}"
                     href="/admin/handler?type=FINISHING">业务处理</a>

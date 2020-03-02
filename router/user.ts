@@ -16,7 +16,6 @@ function loginStatus(
     updatePwd = false
 ): any {
     return {
-        title: "登录",
         identity,
         data: {
             failure,
@@ -57,7 +56,6 @@ user.get("/reset", async function(req, res, next) {
     res.render(
         "user/login",
         {
-            title: "重置密码",
             data: {
                 type: "reset",
                 title: "重置密码"
@@ -80,7 +78,6 @@ user.post("/reset", async (req, res, next) => {
     );
     const $operate = await handleQuery(next, query(updatePwd, "OPERATE"));
     const resResult = {
-        title: "重置密码",
         data: {
             type: "reset",
             title: "重置密码",
@@ -101,7 +98,6 @@ user.get("/register", function(req, res, next) {
     res.render(
         "user/login",
         {
-            title: "注 册",
             data: {
                 type: "register",
                 title: "用 户 注 册"
@@ -179,7 +175,7 @@ user.get("/:id/message", (req, res, next) => {
 });
 
 user.post("/update", async (req, res, next) => {
-    const { uemail, upwd, uname, utel, uaddress, uavatar } = req.body;
+    const { uemail, upwd, uname, utel, uaddress, uavatar, uvip } = req.body;
     const image = await base64ToFile(uavatar, "avatar");
     const updateMsg = CreateSql.update<User>(
         "user",
@@ -189,11 +185,26 @@ user.post("/update", async (req, res, next) => {
             uname: uname,
             utel,
             uaddress,
-            uavatar: "/" + image
+            uvip,
+            uavatar: image
         },
         {
             uid: res.locals.detils.uid
         }
+    );
+    const $operate = await handleQuery(next, query(updateMsg, "OPERATE"));
+    const data: { status?: string } = {};
+    $operate.results.affectedRows > 0
+        ? (data.status = "failure")
+        : (data.status = "success");
+    res.redirect(`/user/${res.locals.detils.uid}/message`);
+});
+
+user.get("/update/tuihuiyajin", async (req, res, next) => {
+    const updateMsg = CreateSql.update<User>(
+        "user",
+        { uvip: "0" },
+        { uid: res.locals.detils.uid }
     );
     const $operate = await handleQuery(next, query(updateMsg, "OPERATE"));
     const data: { status?: string } = {};

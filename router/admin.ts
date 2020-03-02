@@ -1,7 +1,14 @@
 import { Router } from "express";
 import createUid = require("node-uid");
 import md5 = require("md5");
-import { update, select, deletes, insert, fuzzy } from "../handler/create.sql";
+import {
+    update,
+    select,
+    deletes,
+    insert,
+    fuzzy,
+    Feilds
+} from "../handler/create.sql";
 
 import {
     Identity,
@@ -17,6 +24,15 @@ import { User } from "../mysql/types";
 import tokenAuth from "../handler/token.auth";
 import { dateFormat, base64ToFile } from "../handler/format";
 const admin = Router();
+
+function strTrim(str: string, isGlobal: boolean): string {
+    let result: string;
+    result = str.replace(/(^\s+)|(\s+$)/g, "");
+    if (isGlobal) {
+        result = result.replace(/\s/g, "");
+    }
+    return result;
+}
 
 admin.get("*", async (req, res, next) => {
     const loginPage = [
@@ -170,6 +186,7 @@ admin.all("/foo/:uidentity", async (req, res, next) => {
                 "admin/index",
                 {
                     data: {
+                        searchValue,
                         feild: ["USER", "MEMBER", "ADMIN"],
                         uidentity,
                         operate,
@@ -253,6 +270,16 @@ admin.get("/foo/order/detail", async function(req, res, next) {
 //产品管理请求
 admin.all("/foo/product", async (req, res, next) => {
     const { operate, pid, searchValue, result } = req.query;
+    const {
+        price,
+        title,
+        description,
+        stock,
+        specification,
+        remark,
+        banner
+    } = req.body;
+    const image = await base64ToFile(banner);
     if (!operate && !pid && !searchValue) {
         const allProd = select<Product>("product");
         const $operate = await handleQuery<Product>(
@@ -292,6 +319,7 @@ admin.all("/foo/product", async (req, res, next) => {
             "admin/index",
             {
                 data: {
+                    searchValue,
                     feild: ["USER", "MEMBER", "ADMIN"],
                     uidentity: "product",
                     operate,
@@ -303,30 +331,19 @@ admin.all("/foo/product", async (req, res, next) => {
         );
     } else if (operate && pid) {
         let sql: string;
-        const {
+        const newValue: Feilds<Product> = {
             price,
             title,
-            description,
+            description: strTrim(req.body.description, true),
             stock,
             specification,
-            remark,
-            banner
-        } = req.body;
-        const image = await base64ToFile(banner);
+            remark: strTrim(req.body.remark, true)
+        };
+        if (image) {
+            newValue.banner = image;
+        }
         if (operate == "edit") {
-            sql = update<Product>(
-                "product",
-                {
-                    price,
-                    title,
-                    description,
-                    stock,
-                    specification,
-                    remark,
-                    banner: "/" + image
-                },
-                { pid }
-            );
+            sql = update<Product>("product", newValue, { pid });
         } else if (operate == "delete") {
             sql = deletes<Product>("product", { pid });
         }
@@ -342,10 +359,11 @@ admin.all("/foo/product", async (req, res, next) => {
             pid: createUid(12),
             price: req.body.price,
             title: req.body.title,
-            description: req.body.description,
+            description: strTrim(req.body.description, true),
             stock: req.body.stock,
             specification: req.body.specification,
-            remark: req.body.remark
+            remark: strTrim(req.body.remark, true),
+            banner: image
         });
         const $result = await handleQuery(next, query(sql, "OPERATE"));
         const url =
@@ -399,6 +417,7 @@ admin.get("/foo/order", async (req, res, next) => {
             "admin/index",
             {
                 data: {
+                    searchValue,
                     feild: ["USER", "MEMBER", "ADMIN"],
                     uidentity: "order",
                     search: searchValue,

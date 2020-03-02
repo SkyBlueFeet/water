@@ -76,15 +76,29 @@ business.get("/order", async (req, res, next) => {
 });
 
 business.post("/order", async (req, res, next) => {
+    const {
+        uid,
+        olocation,
+        otel,
+        otype,
+        omessage,
+        oremark,
+        odelivery
+    } = req.body;
+    const now = new Date();
+    const _delivery = now.getTime() + odelivery * 60 * 60 * 1000;
+
     const newOrder = insert<Order>("order", {
         oid: createUid(12),
-        uid: req.body.uid,
-        olocation: req.body.olocation,
-        otel: req.body.otel,
-        omessage: req.body.omessage,
-        odate: dateFormat(new Date()),
-        oremark: req.body.oremark,
-        ostatus: OrderStatus.MISSED
+        uid,
+        olocation,
+        otel,
+        otype,
+        omessage,
+        odate: dateFormat(now),
+        oremark,
+        ostatus: OrderStatus.MISSED,
+        odelivery: dateFormat(new Date(_delivery))
     });
     await handleQuery(next, query(newOrder, "OPERATE"));
 

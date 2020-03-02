@@ -55,12 +55,35 @@
                 padding-top: 9rem;
             }
         }
+
+        .cart-pay__loading {
+            height: 100vh;
+            width: 100vw;
+            position: fixed;
+            z-index: 100;
+            background-color: rgba(255, 255, 255, 0.7);
+            margin-top: 5rem;
+        }
+
+        .cart-pay__container {
+            text-align: center;
+        }
     </style>
 </head>
 
 <body>
     <div id="app">
         <%- include("../partials/_header.html") %>
+        <div class="cart-pay__loading" v-show="isLoading">
+            <div class="cart-pay__container">
+                <div class="spinner-border text-success" role="status">
+                    <span class="sr-only">正在进行安全检查，请稍后。。。</span>
+                </div>
+                <label class="text-secondary" v-show="isJiancha">正在支付......</label>
+                <label class="text-info" v-show="isSubmit ">正在提交信息......</label>
+                <label class="text-success" v-show="isSuccess">提交成功！您已支付押金！</label>
+            </div>
+        </div>
         <div class="container">
             <div class="row">
                 <div class="col-md-4 order-0 order-md-1 mb-4">
@@ -108,8 +131,17 @@
                                 value="<%= detils.uemail %>">
                         </div>
                         <div class="mb-3">
+                            <div class="custom-control custom-checkbox">
+                                <input <%= detils.uvip?"checked disabled":"" %> name="uvip" value="25" v-model="yajin"
+                                    type="checkbox" class="custom-control-input" id="same-address">
+                                <label class="custom-control-label" for="same-address">缴纳水壶押金（￥25）
+                                    <a class="disabled" href="/user/update/tuihuiyajin">退回押金(将退回原账户)</a>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="mb-3">
                             <label for="opwd">重置密码</label>
-                            <input type="password" name="upwd" class="form-control" id="opwd" placeholder="" value="">
+                            <input type="password" name="upwd" class="form-control" id="opwd" placeholder="">
                         </div>
 
                         <div class="mb-3">
@@ -118,7 +150,8 @@
                                 value="<%= detils.udate %>">
                         </div>
                         <hr class="mb-4">
-                        <button class="btn btn-primary btn-lg btn-block" type="submit">更新个人信息</button>
+                        <button @click.prevent="submit" class="btn btn-primary btn-lg btn-block"
+                            type="submit">更新个人信息</button>
                     </form>
                 </div>
             </div>
@@ -128,21 +161,56 @@
     </div>
     <script src="/public/js/vue<%= isProd?'.min':'' %>.js"></script>
     <script>
-        new Vue({
+        var vm = new Vue({
             el: "#app",
             created() {
                 this.path = window.location.pathname;
+                var isVip = !!parseInt("<%= detils.uvip %>", 10) ? parseInt("<%= detils.uvip %>", 10) > 0 : 0;
+                this.isVip = isVip;
+                this.yajin = isVip;
             },
             data() {
                 return {
                     alertStyle: "alert-success",
                     alertShow: "success",
                     fileName: "选择头像",
+                    isLoading: false,
+                    isJiancha: false,
+                    isSubmit: false,
+                    isSuccess: false,
+                    isVip: false,
+                    yajin: false
                 }
             },
             methods: {
                 hideAlert() {
                     this.alertShow = false
+                },
+                submit() {
+                    var form = document.forms[1];
+                    if (form.reportValidity()) {
+                        if (this.isVip !== this.yajin && !this.isVip) {
+                            this.isLoading = true;
+                            var loading = setTimeout(function () {
+                                vm.isJiancha = true;
+                                loading = setTimeout(function () {
+                                    vm.isJiancha = false;
+                                    vm.isSubmit = true;
+                                    loading = setTimeout(function () {
+                                        vm.isSubmit = false;
+                                        vm.isSuccess = true;
+                                        loading = setTimeout(function () {
+                                            vm.isLoading = false;
+                                            localStorage.clear();
+                                            form.submit()
+                                        }, 500)
+                                    }, 1000)
+                                }, 2000)
+                            }, 500);
+                        } else {
+                            form.submit()
+                        }
+                    }
                 },
                 setFile() {
                     var file = document.getElementById("inputGroupFile01").files;

@@ -37,11 +37,11 @@ const config = {
     /**
      * 网站标题
      */
-    title: "饿了么",
+    title: "渴了么",
     /**
      * 网站图标文件，网页有图标时会被覆盖
      */
-    favicon: setPath("public/images/logo.png"),
+    favicon: setPath("public/images/logo-120.png"),
 
     /**
      *公共资源目录
@@ -61,7 +61,7 @@ const config = {
     /**
      * 登录token公钥
      */
-    publicKey: setPath("handler/rsa_private_key.pem"),
+    publicKey: setPath("handler/rsa_public_key.pem"),
 
     /**
      * blacklist

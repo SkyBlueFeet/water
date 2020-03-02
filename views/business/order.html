@@ -99,6 +99,7 @@
                                     <h6 class="my-0">{{goods.item.title}}</h6>
                                     <small class="text-muted">{{goods.num}}件</small>
                                     <small class="text-muted">{{goods.item.specification}}装</small>
+                                    <small class="text-muted">{{goods.item.otype}}</small>
                                 </div>
                                 <span class="text-muted">￥ {{goods.item.price}}</span>
                             </li>
@@ -131,9 +132,12 @@
                                 value="<%= detils.uaddress %>" required>
                         </div>
 
-                        <div class="mb-3">
-                            <label for="oremark">备注信息</label>
-                            <input type="tel" name="oremark" class="form-control" id="oremark" placeholder="" value="">
+                        <div class="input-group mb-3">
+                            <input min="1" name="odelivery" type="number" class="form-control" value="1"
+                                aria-label="Recipient's username" aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <span class="input-group-text" id="basic-addon2">小时后送达</span>
+                            </div>
                         </div>
                         <input type="hidden" name="omessage" class="form-control" id="omessage" placeholder=""
                             :value="JSON.stringify(cartList)">
@@ -184,7 +188,8 @@
                     isJiancha: false,
                     isSubmit: false,
                     isSuccess: false,
-                    path: window.location.pathname
+                    path: window.location.pathname,
+                    time: ""
                 }
             },
             mounted() {
@@ -192,6 +197,9 @@
             },
 
             methods: {
+                test() {
+                    // console.log(this.time);
+                },
                 submit() {
                     var form = document.forms[1];
                     if (form.reportValidity()) {
