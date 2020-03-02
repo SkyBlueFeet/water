@@ -19,7 +19,7 @@ export function serverError(
     res: Response
     // next: NextFunction
 ): void {
-   if (process.env.NODE_ENV === "development") {
+    if (process.env.NODE_ENV === "development") {
         res.locals.message = err.message;
         res.locals.error = req.app.get("env") === "development" ? err : {};
 
@@ -28,7 +28,7 @@ export function serverError(
         // render the error page
         res.status(err["status"] || 500);
         res.render("error");
-    }else{
+    } else {
         res.render("500");
     }
 }

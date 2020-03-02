@@ -334,10 +334,10 @@ admin.all("/foo/product", async (req, res, next) => {
         const newValue: Feilds<Product> = {
             price,
             title,
-            description: strTrim(req.body.description, true),
+            description: strTrim(description, true),
             stock,
             specification,
-            remark: strTrim(req.body.remark, true)
+            remark: strTrim(remark, true)
         };
         if (image) {
             newValue.banner = image;

@@ -1,7 +1,7 @@
 {
     "name": "express-vue-ssr",
     "version": "2.0.2",
-    "description": "本项目是基于[vue-hackernews-2.0](https://github.com/vuejs/vue-hackernews-2.0)基础上的自定义修改。将webpack升级到了4.x版本。",
+    "description": "一个简单但功能完整的网站，极少使用js，使用Vue直接写在HTML中，没有使用ajax和axios，主要使用form提交，但是有耗费服务器性能，包含安全隐患",
     "scripts": {
         "watch:dev": "nodemon script/dev.ts --config",
         "dev": "ts-node --project tsconfig.frame.json script/dev.ts",

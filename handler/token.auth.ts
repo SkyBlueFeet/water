@@ -31,7 +31,7 @@ export default class Jwt {
     // 校验token
     verifyToken(): any {
         const token = this.data;
-        if(!token) return;
+        if (!token) return;
         const cert = fs.readFileSync(global.publicKey); //公钥 可以自己生成
         let uid: any;
         try {
